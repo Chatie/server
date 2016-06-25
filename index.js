@@ -78,7 +78,7 @@ app.use(function (req, res) {
 
   </script>
 
-  <h2>WebSocket Test</h2>
+  <h2>Wechaty.io WebSocket Test</h2>
 
   <div id="output"></div>
 
