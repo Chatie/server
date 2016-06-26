@@ -17,7 +17,9 @@
   },
   "keywords": [
     "wechaty",
+    "wechaty.io",
     "wechat",
+    "bot manager",
     "cloud",
     "management"
   ],
@@ -36,6 +38,7 @@
   "homepage": "https://github.com/zixia/wechaty.io#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "npmlog": "^3.1.2",
     "ws": "^1.1.0"
   },
   "devDependencies": {
