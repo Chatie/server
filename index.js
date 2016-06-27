@@ -6,7 +6,7 @@ const server = require('http').createServer()
   , express = require('express')
   , app = express()
   // set the port of our application
-  // process.env.PORT lets the port be set by Heroku
+  // process.env.PORT is set by Heroku/Cloud9
   var port = process.env.PORT || 8080
 
 server.on('request', app);
@@ -66,7 +66,8 @@ app.use(function (req, res) {
   function onMessage(evt)
   {
     console.log(evt)
-    writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+    writeToScreen('<span style="color: blue;">RESPONSE ALL: ' + JSON.stringify(evt) +'</span>');
+    writeToScreen('<span style="color: blue;">RESPONSE DATA: ' + evt.data+'</span>');
     // websocket.close();
   }
 
@@ -117,16 +118,11 @@ function verifyClient(info, done) {
   // console.log(req)
   console.log(req.url)
 
-  let token
 
-  const {user, pass}  = basic(req.headers.authorization)
-  const matches       = req.url.match(/token\/(.+)$/i)
+  let token = authToken(req.headers.authorization)
+              || urlToken(req.url)
 
-  if (user) {
-    token = user
-  } else if (matches) {
-    token = matches[1]
-  } else {
+  if (!token) {
     return done(false, 400, 'Bad Request')
   }
 
@@ -144,6 +140,31 @@ function verifyClient(info, done) {
     console.log('token: ' + token)
     return token=='zixia'
   }
+}
+
+function urlToken(url) {
+  const matches = String(url).match(/token\/(.+)$/i)
+  return matches && matches[1]
+}
+
+function authToken(authorization) {
+  // https://github.com/KevinPHughes/ws-basic-auth-express/blob/master/index.js
+  if (!authorization) {
+    console.log('no authorization')
+    return null
+  }
+  const parts = authorization.split(' ')
+  if (parts.length !== 2) {
+    console.log('authorization part is not 2')
+    return null
+  }
+  const scheme = parts[0]
+  const token = parts[1]
+  if (!/Token/i.test(scheme) || !token) {
+    console.log('authorization schema is not Token')
+    return null
+  }
+  return token
 }
 
 function basic(authorization) {
