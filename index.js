@@ -287,6 +287,11 @@ function onIoConnection(ws) {
   .on('close', e => {
     console.log('srv on close:' + e)
     ws.close()
+
+    const webSocks = userSocks[ws.user].web
+    if (webSocks) {
+      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send(e.toString()))
+    }
   })
 
   ws.send('something from srv')
