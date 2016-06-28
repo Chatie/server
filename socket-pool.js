@@ -67,6 +67,7 @@ class SocketPool extends EventEmitter {
         return true
       }
     })
+    return delList
   }
 }
 
