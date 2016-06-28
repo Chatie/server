@@ -1,8 +1,8 @@
 const EventEmitter = require('events')
 
 class ListagItem {
-  constructor(item, tagMap = {}) {
-    this.item = item
+  constructor(data, tagMap = {}) {
+    this.data = data
     this.tagMap = Object.assign({}, tagMap)
   }
 
@@ -29,11 +29,11 @@ function Listag(items, tagMap) {
 
     constructor(items = [], tagMap = {}) {
       super()
-      this.list = []
+      this.items = []
       this.add(items, tagMap)
     }
 
-    get length() { return this.list.length }
+    get length() { return this.items.length }
 
     /**
      *
@@ -61,21 +61,34 @@ function Listag(items, tagMap) {
         item = new ListagItem(item, tagMap)
       }
 
-      this.list.push(item)
+      this.items.push(item)
+      this.emit('add', item.data)
       return item
     }
 
     get(tagMap) {
-      const items = this.list.filter(i => i.hasTag(tagMap))
+      const items = this.items.filter(i => i.hasTag(tagMap))
       return new Listag(items)
     }
 
     del(items) {
+      if (items.map) {
+        return items.map(i => this.del(i))
+                    .reduce((a, b) => a+b)
+      }
+
+      const item = items
+      let data
+      if (item instanceof ListagItem) {
+        data = item.data
+      } else {
+        data = item
+      }
+
       let counter = 0
-      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT
-      this.list = this.list.filter(i => {
-        if (~items.indexOf(i)) {
-          this.emit('del', i)
+      this.items = this.items.filter(i => {
+        if (i.data === data) {
+          this.emit('del', data)
           counter++
           return false
         } else {
@@ -86,23 +99,43 @@ function Listag(items, tagMap) {
     }
 
     tag(tagMap) {
-      this.list.forEach(i => i.tag(tagMap))
+      this.items.forEach(i => i.tag(tagMap))
       return this
+    }
+
+    forEach(cb) {
+      return this.items.forEach(i => {
+        return cb(i.data)
+      })
+    }
+
+    map(cb) {
+      return this.items.map(i => {
+        return cb(i.data)
+      })
+    }
+
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+    reduce(callback, initialValue) {
+      return this.items.reduce((previousValue, currentValue, currentIndex, array) => {
+        return callback(previousValue, currentValue.data, currentIndex, array)
+      }, initialValue)
+
     }
   }
 
   const handler = {
-    get(target, propKey, receiver) {
+    get(listag, propKey, receiver) {
       // console.log('##############' + propKey)
       try {
         const i = parseInt(propKey, 10)
-        if (Number.isInteger(i) && i >= 0 && i < target.length) {
-          return target.list[i].item
+        if (Number.isInteger(i) && i >= 0 && i < listag.length) {
+          return listag.items[i].data
         }
       } catch (e) {}
 
-      if (propKey in target) {
-        return target[propKey]
+      if (propKey in listag) {
+        return listag[propKey]
       }
     }
   }

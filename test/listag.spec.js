@@ -153,7 +153,7 @@ test('Listag cross query test', t => {
   const EXPECTED_OWNER3 = 'dummy owner 3'
 
   let lt = new Listag()
-  
+
   lt.add(EXPECTED_SOCK1, {
     owner: EXPECTED_OWNER12
     , channel: EXPECTED_CHANNEL1
@@ -182,6 +182,39 @@ test('Listag cross query test', t => {
   t.equal(retList.length, 2, 'should get 2 result for channel23')
   t.equal(retList[0], EXPECTED_SOCK2, 'should get sock2 by channel23')
   t.equal(retList[1], EXPECTED_SOCK3, 'should get sock3 by channel23')
+
+  t.end()
+})
+
+test('Listag del & array functional', t => {
+  let lt = new Listag([1,2], {a:1})
+
+  let addEvent = false
+  let delEvent = false
+
+  lt.once('add', _ => addEvent = true )
+  lt.once('del', _ => delEvent = true )
+
+  lt.add(3, {b:2})
+
+  lt.add(4, {b:2})
+  lt.del(4)
+  lt.del(4)
+
+  lt.add([5,6], {c:2})
+  const delList = lt.get({c:2})
+  lt.del(delList)
+
+  lt.forEach(v => {
+    if (v === 1 || v === 2 || v === 3) {
+      t.pass('forEach for value ' + v)
+    } else {
+      t.fail('forEach got unknown value ' + v)
+    }
+  })
+
+  t.ok(addEvent, 'should received add event')
+  t.ok(delEvent, 'should received del event')
 
   t.end()
 })
