@@ -138,7 +138,7 @@ function verifyClient(info, done) {
 
   function auth(token) {
     console.log('token: ' + token)
-    return token=='zixia'
+    return !!token
   }
 }
 
