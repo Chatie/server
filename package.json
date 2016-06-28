@@ -6,6 +6,7 @@
   "scripts": {
     "test": "eslint *.js",
     "start": "node index.js",
+    "test": "tap test/*.spec.js",
     "postinstall": "echo postinstall"
   },
   "engines": {

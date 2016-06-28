@@ -18,6 +18,7 @@ class SocketPool extends EventEmitter {
       , channel
     }
     this.pool.push(sock)
+    this.emit('add', sock)
   }
 
   get({
@@ -58,7 +59,14 @@ class SocketPool extends EventEmitter {
   }) {
     const delList = this.get({sock, owner, channel})
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT
-    this.pool = this.pool.filter(s => !~delList.indexOf(s))
+    this.pool = this.pool.filter(s => {
+      if (~delList.indexOf(s)) {
+        this.emit('del', s)
+        return false
+      } else {
+        return true
+      }
+    })
   }
 }
 
