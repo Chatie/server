@@ -29,7 +29,12 @@ const dbUri = process.env.MONGODB_URI
 app.use(function (req, res) {
   res.send(`
  <!DOCTYPE html>
+ <html>
+  <head>
   <meta charset="utf-8" />
+  <link rel="icon" type="image/png" href="wechaty-favicon-32x32.png" sizes="32x32" />
+  <link rel="icon" type="image/png" href="wechaty-favicon-16x16.png" sizes="16x16" />
+
   <title>WebSocket Test</title>
   <script language="javascript" type="text/javascript">
 
@@ -98,11 +103,15 @@ app.use(function (req, res) {
   window.addEventListener("load", init, false);
 
   </script>
+  </head>
+  <body>
 
   <h2>Wechaty.io WebSocket Test</h2>
 
   <div id="output"></div>
 
+  </body>
+</html>
   `)
 })
 
