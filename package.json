@@ -42,6 +42,7 @@
     "ws": "^1.1.0"
   },
   "devDependencies": {
-    "eslint": "^2.13.1"
+    "eslint": "^2.13.1",
+    "tap": "^5.8.0"
   }
 }

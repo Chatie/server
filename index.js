@@ -1,4 +1,8 @@
+const EventEmitter = require('events')
+
 const log = require('npmlog')
+log.level = 'verbose'
+log.level = 'silly'
 
 const server = require('http').createServer()
   , url = require('url')
@@ -126,8 +130,7 @@ function verifyClient(info, done) {
     return done(false, 400, 'Bad Request')
   }
 
-  const isAuthed = auth(token)
-  if (!isAuthed) {
+  if (!auth(token)) {
     console.log('auth fail')
     return done(false, 401, 'Unauthorized')
   }
@@ -165,29 +168,6 @@ function authToken(authorization) {
     return null
   }
   return token
-}
-
-function basic(authorization) {
-  // https://github.com/KevinPHughes/ws-basic-auth-express/blob/master/index.js
-  if (!authorization) {
-    console.log('no authorization')
-    return {}
-  }
-  const parts = authorization.split(' ')
-  if (parts.length !== 2) {
-    console.log('authorization part is not 2')
-    return {}
-  }
-  const scheme = parts[0]
-  const credentials = new Buffer(parts[1], "base64").toString()
-  const index = credentials.indexOf(":")
-  if ("Basic" !== scheme || index < 0) {
-    console.log('authorization schema is not Basic')
-    return {}
-  }
-  const user = credentials.slice(0, index)
-  const pass = credentials.slice(index + 1)
-  return {user, pass}
 }
 
 function handleProtocols(protocols, done) {
@@ -261,6 +241,8 @@ function onWebConnection(ws) {
       }
     }
     ws.close()
+
+    wsCast(ws.user, 'io', 'connect lost')
   }
 
   ws.send('something from c9');
@@ -271,28 +253,102 @@ function onIoConnection(ws) {
 
   ws
   .on('message', function incoming(message) {
-    console.log(typeof message)
-    console.log(message.length)
-    console.log('srv received: %s, reply roger', message)
+    log.verbose('onIo', '%s, %s, recv msg: %s', message.length, typeof message, message)
 
-    const webSocks = userSocks[ws.user].web
-    if (webSocks) {
-      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: ' + message))
-    }
+    wsCast(ws.user, 'web', message)
+    // const webSocks = userSocks[ws.user].web
+    // if (webSocks) {
+    //   webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: ' + message))
+    // }
+
+    console.log('reply roger')
     ws.send('roger')
   })
   .on('error', e => {
     console.log('error:' + e)
+    wsCast(ws.user, 'web', 'event[error]: ' + e)
   })
   .on('close', e => {
     console.log('srv on close:' + e)
     ws.close()
-
-    const webSocks = userSocks[ws.user].web
-    if (webSocks) {
-      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: io connect closed: ' + e.toString()))
-    }
+    wsCast(ws.user, 'web', 'event[close]: ' + e)
   })
 
   ws.send('something from srv')
+
+}
+
+function wsCast(user, channel, msg) {
+  log.verbose('wsCast', '%s, %s, %s', user, channel, msg)
+
+  const socks = userSocks[user][channel]
+  if (socks) {
+    log.verbose('wsCast', 'found %d socks', socks.length)
+    socks.forEach(s => {
+      if (s.readyState === WebSocket.OPEN) {
+        s.send(channel + '[' + user + ']: ' + msg)
+      }
+    })
+  }
+}
+
+
+class SocketPool extends EventEmitter {
+  constructor() {
+    super()
+    this.pool = []
+  }
+
+  add({
+    sock
+    , owner
+    , protocol
+  }) {
+    sock.spMeta = {
+      owner
+      , protocol
+    }
+    this.pool.push(sock)
+  }
+
+  get({
+    sock
+    , owner
+    , protocol
+  } = {}) {
+
+    if (!sock && !owner && !protocol) {
+      return this.pool
+    }
+
+    else if (sock && !owner && !protocol) {
+      return this.pool.filter(s => s === sock)
+    } else if (protocol && !sock && !owner) {
+      return this.pool.filter(s => s.spMeta.protocol === protocol)
+    } else if (owner && !sock && !protocol) {
+      return this.pool.filter(s => s.spMeta.owner === owner)
+    }
+
+    else if (owner && protocol && !sock) {
+      return this.pool.filter(
+        s =>
+          s.spMeta.owner === owner
+          && s.spMeta.protocol === protocol
+      )
+    }
+
+    else {
+      throw new Error('unsupported get call')
+    }
+  }
+
+  del({
+    sock
+    , owner
+    , protocol
+  }) {
+    const delList = this.get({sock, owner, protocol})
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT
+    this.pool = this.pool.filter(s => !~delList.indexOf(s))
+  }
 }
