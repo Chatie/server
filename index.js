@@ -1,4 +1,4 @@
-const EventEmitter = require('events')
+const Listag = require('./listag')
 
 const log = require('npmlog')
 log.level = 'verbose'
@@ -9,7 +9,6 @@ const server = require('http').createServer()
   , WebSocket = require('ws')
   , express = require('express')
   , app = express()
-  // set the port of our application
   // process.env.PORT is set by Heroku/Cloud9
   var port = process.env.PORT || 8080
 
@@ -34,8 +33,10 @@ app.use(function (req, res) {
   <title>WebSocket Test</title>
   <script language="javascript" type="text/javascript">
 
+  var token = prompt("Please enter your token", "wechaty")
+
   var wsUri = "wss://echo.websocket.org/";
-  wsUri = document.location.href.replace(/^http(.?):/, 'ws$1:') + 'websocket/token/zixia'
+  wsUri = document.location.href.replace(/^http(.?):/, 'ws$1:') + 'websocket/token/' + token
 
   var output;
 
@@ -107,21 +108,11 @@ app.use(function (req, res) {
 
 
 
-
-
-// var WebSocketServer = require('ws').Server
-// https://github.com/websockets/ws/issues/326
-
-// http://stackoverflow.com/a/19155613/1123955
-function verifyClient(info, done) {
+function verifyClient(info, done) { // http://stackoverflow.com/a/19155613/1123955
   console.log('verifyClient()')
 
   const {origin, secure, req} = info
-//  console.log(origin)
-//  console.log(secure)
-  // console.log(req)
   console.log(req.url)
-
 
   let token = authToken(req.headers.authorization)
               || urlToken(req.url)
@@ -139,10 +130,11 @@ function verifyClient(info, done) {
 
   done(true, 200, 'Ok')
 
-  function auth(token) {
-    console.log('token: ' + token)
-    return !!token
-  }
+}
+
+function auth(token) {
+  console.log('token: ' + token)
+  return !!token
 }
 
 function urlToken(url) {
@@ -177,7 +169,7 @@ function handleProtocols(protocols, done) {
   done(true, protocols[0])
 }
 
-const userSocks = {}
+const ltSocks = new Listag()
 
 wss.on('connection', function connection(ws) {
   log.verbose('Io', 'wss.on event connection')
@@ -196,13 +188,7 @@ wss.on('connection', function connection(ws) {
   Object.assign(ws, {
     user, module
   })
-  if (!userSocks[user]) {
-    userSocks[user] = {}
-  }
-  if (!userSocks[user][module]) {
-    userSocks[user][module] = []
-  }
-  userSocks[user][module].push(ws)
+  ltSocks.add(ws).tag({user, module})
 
   switch(module.toLowerCase()) {
     case 'web':
@@ -225,24 +211,16 @@ function onWebConnection(ws) {
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
   })
-  ws.on('error', gone)
-  ws.on('close', gone)
+  ws.on('error', gone.bind(ws))
+  ws.on('close', gone.bind(ws))
 
-  function gone(ws) {
-    log.verbose('Io', 'onWebConnection() gone()')
-    if (!ws.user || !userSocks || !userSocks[ws.user]) {
-      return
-    }
-    const webSocks = userSocks[ws.user].web
-    if (webSocks) {
-      const index = webSocks.indexOf(ws)
-      if (index > -1) {
-        webSocks.splice(index, 1)
-      }
-    }
-    ws.close()
+  function gone(e) {
+    log.verbose('Io', 'onWebConnection() gone(%s)', e)
 
-    wsCast(ws.user, 'io', 'connect lost')
+    ltSocks.del(this)
+    this.close()
+
+    wsCast(this.user, 'io', 'connect lost')
   }
 
   ws.send('something from c9');
@@ -256,10 +234,6 @@ function onIoConnection(ws) {
     log.verbose('onIo', '%s, %s, recv msg: %s', message.length, typeof message, message)
 
     wsCast(ws.user, 'web', message)
-    // const webSocks = userSocks[ws.user].web
-    // if (webSocks) {
-    //   webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: ' + message))
-    // }
 
     console.log('reply roger')
     ws.send('roger')
@@ -278,77 +252,32 @@ function onIoConnection(ws) {
 
 }
 
-function wsCast(user, channel, msg) {
-  log.verbose('wsCast', '%s, %s, %s', user, channel, msg)
+function wsCast(user, module, msg) {
+  log.verbose('wsCast', '%s, %s, %s', user, module, msg)
 
-  const socks = userSocks[user][channel]
+  const tagMap = {user, module}
+  console.log('tagMap')
+  console.log(tagMap)
+  const socks = ltSocks.get(tagMap)
+
+  console.log('ltSocks length: ' + (ltSocks && ltSocks.length))
+  // console.log('socks' + socks)
+  console.log('socks length: ' + (socks && socks.length))
+
+  ltSocks.forEach(v => {
+    // console.log('user: ' + v.user)
+    let tagMap = ltSocks.tagMap(v)
+    console.log(tagMap)
+  })
+
   if (socks) {
     log.verbose('wsCast', 'found %d socks', socks.length)
     socks.forEach(s => {
       if (s.readyState === WebSocket.OPEN) {
-        s.send(channel + '[' + user + ']: ' + msg)
+        s.send(module + '[' + user + ']: ' + msg)
       }
     })
   }
 }
 
 
-class SocketPool extends EventEmitter {
-  constructor() {
-    super()
-    this.pool = []
-  }
-
-  add({
-    sock
-    , owner
-    , protocol
-  }) {
-    sock.spMeta = {
-      owner
-      , protocol
-    }
-    this.pool.push(sock)
-  }
-
-  get({
-    sock
-    , owner
-    , protocol
-  } = {}) {
-
-    if (!sock && !owner && !protocol) {
-      return this.pool
-    }
-
-    else if (sock && !owner && !protocol) {
-      return this.pool.filter(s => s === sock)
-    } else if (protocol && !sock && !owner) {
-      return this.pool.filter(s => s.spMeta.protocol === protocol)
-    } else if (owner && !sock && !protocol) {
-      return this.pool.filter(s => s.spMeta.owner === owner)
-    }
-
-    else if (owner && protocol && !sock) {
-      return this.pool.filter(
-        s =>
-          s.spMeta.owner === owner
-          && s.spMeta.protocol === protocol
-      )
-    }
-
-    else {
-      throw new Error('unsupported get call')
-    }
-  }
-
-  del({
-    sock
-    , owner
-    , protocol
-  }) {
-    const delList = this.get({sock, owner, protocol})
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_Operators#Bitwise_NOT
-    this.pool = this.pool.filter(s => !~delList.indexOf(s))
-  }
-}

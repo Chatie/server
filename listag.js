@@ -68,10 +68,18 @@ function Listag(items, tagMap) {
 
     get(tagMap) {
       const items = this.items.filter(i => i.hasTag(tagMap))
-      return new Listag(items)
+      if (items && items.length) {
+        return new Listag(items)
+      } else {
+        return null
+      }
     }
 
     del(items) {
+      if (!items) {
+        return 0
+      }
+
       if (items.map) {
         return items.map(i => this.del(i))
                     .reduce((a, b) => a+b)
@@ -88,8 +96,8 @@ function Listag(items, tagMap) {
       let counter = 0
       this.items = this.items.filter(i => {
         if (i.data === data) {
-          this.emit('del', data)
           counter++
+          this.emit('del', data)
           return false
         } else {
           return true
@@ -101,6 +109,23 @@ function Listag(items, tagMap) {
     tag(tagMap) {
       this.items.forEach(i => i.tag(tagMap))
       return this
+    }
+
+    tagMap(items) {
+      if (items.map) {
+        return items.map(i => this.tagMap(i))
+      }
+      const item = items
+
+      if (item instanceof ListagItem) {
+        return item.tagMap
+      }
+
+      const ret = this.items.filter(i => i.data === item)
+      if (ret && ret.length) {
+        return ret[0].tagMap
+      }
+       return {} // XXX or return null?
     }
 
     forEach(cb) {

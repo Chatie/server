@@ -201,8 +201,15 @@ test('Listag del & array functional', t => {
   lt.del(4)
   lt.del(4)
 
-  lt.add([5,6], {c:2})
-  const delList = lt.get({c:2})
+  t.ok(addEvent, 'should received add event')
+  t.ok(delEvent, 'should received del event')
+
+  const EXPECTED_MAP = { expected: true }
+  lt.add([5,6], EXPECTED_MAP)
+  const retMap = lt.tagMap(5)
+  t.deepEqual(retMap, EXPECTED_MAP, 'should get back the tagMap')
+
+  const delList = lt.get(EXPECTED_MAP)
   lt.del(delList)
 
   lt.forEach(v => {
@@ -213,8 +220,6 @@ test('Listag del & array functional', t => {
     }
   })
 
-  t.ok(addEvent, 'should received add event')
-  t.ok(delEvent, 'should received del event')
 
   t.end()
 })
