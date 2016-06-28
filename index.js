@@ -277,7 +277,7 @@ function onIoConnection(ws) {
 
     const webSocks = userSocks[ws.user].web
     if (webSocks) {
-      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send(message))
+      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: ' + message))
     }
     ws.send('roger')
   })
@@ -290,7 +290,7 @@ function onIoConnection(ws) {
 
     const webSocks = userSocks[ws.user].web
     if (webSocks) {
-      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send(e.toString()))
+      webSocks.forEach(s => s.readyState === WebSocket.OPEN && s.send('IO[' + ws.user + ']: io connect closed: ' + e.toString()))
     }
   })
 
