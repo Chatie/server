@@ -213,6 +213,7 @@ wss.on('connection', function connection(ws) {
 })
 
 function onWebConnection(ws) {
+  wsCast(ws.user, 'io', 'new visitor from web')
   var location = url.parse(ws.upgradeReq.url, true);
   // you might use location.query.access_token to authenticate or share sessions
   // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
@@ -237,6 +238,7 @@ function onWebConnection(ws) {
 
 function onIoConnection(ws) {
   log.verbose('Io', 'onIoConnection()')
+  wsCast(ws.user, 'web', 'new visitor from io')
 
   ws
   .on('message', function incoming(message) {
@@ -249,12 +251,14 @@ function onIoConnection(ws) {
   })
   .on('error', e => {
     console.log('error:' + e)
-    wsCast(ws.user, 'web', 'event[error]: ' + e)
+    ltSocks.del(ws)
+    wsCast(ws.user, 'web', 'connection lost event[error]: ' + e)
   })
   .on('close', e => {
     console.log('srv on close:' + e)
     ws.close()
-    wsCast(ws.user, 'web', 'event[close]: ' + e)
+    ltSocks.del(ws)
+    wsCast(ws.user, 'web', 'connection lost event[close]: ' + e)
   })
 
   ws.send('something from srv')
