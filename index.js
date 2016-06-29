@@ -279,7 +279,7 @@ function wsCast(user, module, msg) {
 
   ltSocks.forEach(v => {
     // console.log('user: ' + v.user)
-    let tagMap = ltSocks.tagMap(v)
+    let tagMap = ltSocks.getTag(v)
     console.log(tagMap)
   })
 

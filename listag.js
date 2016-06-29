@@ -111,7 +111,7 @@ function Listag(items, tagMap) {
       return this
     }
 
-    tagMap(items) {
+    getTag(items) {
       if (items.map) {
         return items.map(i => this.tagMap(i))
       }

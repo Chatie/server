@@ -56,7 +56,7 @@ test('Listag smoking test', t => {
     owner: EXPECTED_OWNER_ALICE
     , channel: EXPECTED_CHANNEL_EARTH
   })
-  t.equal(lt.length, 1, 'should be one after instanciate with tagMat')
+  t.equal(lt.length, 1, 'should be one after instanciate with one item')
   retList = lt.get({ owner: EXPECTED_OWNER_ALICE })
   t.equal(retList.length, 1, 'should get one after get owner1')
   retList = lt.get({ channel: EXPECTED_CHANNEL_EARTH })
@@ -206,8 +206,8 @@ test('Listag del & array functional', t => {
 
   const EXPECTED_MAP = { expected: true }
   lt.add([5,6], EXPECTED_MAP)
-  const retMap = lt.tagMap(5)
-  t.deepEqual(retMap, EXPECTED_MAP, 'should get back the tagMap')
+  const retMap = lt.getTag(5)
+  t.deepEqual(retMap, EXPECTED_MAP, 'should get back the getTag')
 
   const delList = lt.get(EXPECTED_MAP)
   lt.del(delList)
