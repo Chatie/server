@@ -1,50 +1,51 @@
 {
-  "name": "wechaty.io"
-  , "version": "0.0.1"
-  , "description": "Web Service for Wechaty"
-  , "main": "index.js"
-  , "scripts": {
-    "test": "eslint *.js"
-    , "start": "node index.js"
-    , "test": "tap test/*.spec.js"
-    , "postinstall": "echo postinstall"
-    , "lint": "echo tslint *.ts"
-  }
-  , "engines": {
-    "node": "6.2.2"
-  }
-  , "repository": {
-    "type": "git"
-    , "url": "git+https://github.com/zixia/wechaty.io.git"
-  }
-  , "keywords": [
-    "wechaty"
-    , "wechaty.io"
-    , "wechat"
-    , "bot manager"
-    , "cloud"
-    , "management"
-  ]
-  , "eslintConfig": {
+  "name": "wechaty.io",
+  "version": "0.0.1",
+  "description": "Web Service for Wechaty",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test/*.spec.js",
+    "start": "ts-node index.js",
+    "postinstall": "echo postinstall",
+    "lint": "echo tslint *.ts"
+  },
+  "engines": {
+    "node": "6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zixia/wechaty.io.git"
+  },
+  "keywords": [
+    "wechaty",
+    "wechaty.io",
+    "wechat",
+    "bot manager",
+    "cloud",
+    "management"
+  ],
+  "eslintConfig": {
     "env": {
-      "browser": true
-      , "node": true
-      , "es6": true
+      "browser": true,
+      "node": true,
+      "es6": true
     }
-  }
-  , "author": "Zhuohuan LI <zixia@zixia.net>"
-  , "license": "Apache-2.0"
-  , "bugs": {
+  },
+  "author": "Zhuohuan LI <zixia@zixia.net>",
+  "license": "Apache-2.0",
+  "bugs": {
     "url": "https://github.com/zixia/wechaty.io/issues"
-  }
-  , "homepage": "https://github.com/zixia/wechaty.io#readme"
-  , "dependencies": {
-    "express": "^4.14.0"
-    , "npmlog": "^3.1.2"
-    , "ws": "^1.1.0"
-  }
-  , "devDependencies": {
-    "eslint": "^2.13.1"
-    , "tap": "^5.8.0"
+  },
+  "homepage": "https://github.com/zixia/wechaty.io#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "npmlog": "^3.1.2",
+    "ts-node": "^0.9.3",
+    "typescript": "^1.8.10",
+    "ws": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^2.13.1",
+    "tap": "^5.8.0"
   }
 }

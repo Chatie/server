@@ -220,6 +220,12 @@ function onWebConnection(ws) {
 
   ws.on('message', function incoming(message) {
     console.log('received: %s', message);
+    console.log('send dong')
+    const e = JSON.parse(message)
+    ws.send(JSON.stringify({
+      name: 'dong'
+      , data: e.data
+    }))
   })
   ws.on('error', gone.bind(ws))
   ws.on('close', gone.bind(ws))
@@ -234,6 +240,11 @@ function onWebConnection(ws) {
   }
 
   ws.send('something from c9');
+  ws.send('welcome from zixia')
+  ws.send(JSON.stringify({
+    name: 'zixia'
+    , data: 'welcome from zixia 2'
+  }))
 }
 
 function onIoConnection(ws) {
