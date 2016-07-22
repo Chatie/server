@@ -1,14 +1,18 @@
-const Listag = require('./listag')
+///<reference path="../typings/index.d.ts"/>
 
-const log = require('npmlog')
+import Http = require('http')
+import WebSocket = require('ws')
+import url = require('url')
+import express = require('express')
+
+import log = require('npmlog')
 log.level = 'verbose'
 log.level = 'silly'
 
-const server = require('http').createServer()
-  , url = require('url')
-  , WebSocket = require('ws')
-  , express = require('express')
-  , app = express()
+import Listag = require('./listag')
+
+const server = Http.createServer()
+ , app = express()
   // process.env.PORT is set by Heroku/Cloud9
   var port = process.env.PORT || 8080
 
