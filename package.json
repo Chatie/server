@@ -4,8 +4,8 @@
   "description": "Web Service for Wechaty",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.spec.js",
-    "start": "ts-node index.ts",
+    "test": "ts-node ./node_modules/.bin/tap test/*.spec.ts",
+    "start": "ts-node bin/index.ts",
     "postinstall": "typings install",
     "lint": "echo tslint *.ts"
   },
@@ -39,6 +39,7 @@
   "homepage": "https://github.com/zixia/wechaty.io#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "listag": "latest",
     "npmlog": "^3.1.2",
     "ts-node": "^0.9.3",
     "typescript": "^1.8.10",
