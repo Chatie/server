@@ -19,7 +19,7 @@ const server = http.createServer()
 const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
 
 server.listen(port, _ => {
-  console.log('Listening on ' + server.address().port) 
+  console.log('Listening on ' + server.address().port)
 })
 
 server.on('request', app)
@@ -140,10 +140,15 @@ class IoSocket {
 }
 
 
+interface IoEvent {
+  name: string
+  payload: any
+}
+
 /**
  * Io Server
  */
-class IoManager {
+class IoProxy {
   constructor() {
 
   }
@@ -189,7 +194,7 @@ class IoManager {
     // you might use location.query.access_token to authenticate or share sessions
     // or client.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
 
-    client.on('message', function incoming(message) {
+    client.on('message', message => {
       console.log('received: %s', message);
       console.log('send dong')
       const e = JSON.parse(message)
@@ -223,7 +228,7 @@ class IoManager {
     this.broadcast(client['user'], 'web', 'new visitor from io')
 
     client
-    .on('message', function incoming(message) {
+    .on('message', message => {
       log.verbose('onIo', '%s, %s, recv msg: %s', message.length, typeof message, message)
 
       this.broadcast(client['user'], 'web', message)
@@ -294,7 +299,7 @@ class IoAuth {
 
 }
 
-const ioManager = new IoManager()
+const ioManager = new IoProxy()
 const ioAuth = new IoAuth()
 
 const ioSocket = new IoSocket(
