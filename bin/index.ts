@@ -51,8 +51,8 @@ class IoSocket {
   init(): Promise<IoSocket> {
     // https://github.com/websockets/ws/blob/master/doc/ws.md
     const options = {
-      handleProtocols: this.handleProtocols
-      , verifyClient: this.verifyClient
+      handleProtocols: this.handleProtocols.bind(this)
+      , verifyClient: this.verifyClient.bind(this)
       , server: this.server
       // , host: process.env.IP
       // , port: process.env.PORT
