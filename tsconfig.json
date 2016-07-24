@@ -4,9 +4,7 @@
     , "moduleResolution": "node"
     , "target": "es6"
   }
-
   , "files": [
-    "index.ts"
-    , "typings/index.d.ts"
+    "typings/index.d.ts"
   ]
 }

@@ -4,7 +4,7 @@
   "description": "Web Service for Wechaty",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node ./node_modules/.bin/tap test/*.spec.ts",
+    "test": "ts-node $(which tape) test/*.spec.ts",
     "start": "ts-node bin/index.ts",
     "postinstall": "typings install",
     "lint": "echo tslint *.ts"
@@ -42,12 +42,13 @@
     "listag": "latest",
     "npmlog": "^3.1.2",
     "ts-node": "^0.9.3",
-    "typescript": "^1.8.10",
+    "typescript": "^2.0.0",
     "typings": "^1.3.2",
     "ws": "^1.1.1"
   },
   "devDependencies": {
     "eslint": "^2.13.1",
-    "tap": "^5.8.0"
+    "tape": "^4.6.0",
+    "tslint": "^3.13.0"
   }
 }
