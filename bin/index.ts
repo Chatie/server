@@ -56,9 +56,12 @@ class IoSocket {
     , private auth: (req: http.ServerRequest) => Promise<string>
     , private connect: (client: WebSocket) => void 
   ) {
+    log.verbose('IoSocket', 'constructor()')
   }
 
   init(): Promise<IoSocket> {
+    log.verbose('IoSocket', 'init()')
+
     // https://github.com/websockets/ws/blob/master/doc/ws.md
     const options = {
       handleProtocols: this.handleProtocols.bind(this)
@@ -77,7 +80,7 @@ class IoSocket {
    * https://bugs.chromium.org/p/chromium/issues/detail?id=398407#c2
    */
   private handleProtocols(protocols, done) {
-    console.log('handleProtocols() protocols: ' + protocols)
+    log.verbose('IoSocket', 'handleProtocols() protocols: ' + protocols)
     done(true, protocols[0])
   }
 
@@ -93,23 +96,26 @@ class IoSocket {
     }
     , done: (res: boolean, code?: number, message?: string) => void
   ): void {
-    log.verbose('WebSocket', 'verifyClient()')
+    log.verbose('IoSocket', 'verifyClient()')
 
     const {origin, secure, req} = info
-    log.verbose('verifyClient()', req.url)
+    log.verbose('IoSocket', 'verifyClient() req.url = %s', req.url)
 
     this.auth(req)
         .then(token => {
           log.verbose('IoSocket', 'verifyClient() auth succ for token: %s', token)
           req['user'] = token
-          done(true, 200, 'Ok')
+
+          return done(true, 200, 'Ok')
+
         })
         .catch(e => {
           log.verbose('IoSocket', 'verifyClient() auth fail: %s', e.message)
+
           return done(false, 401, 'Unauthorized: ' + e.message)
+
         })
   }
-
 }
 
 
@@ -122,13 +128,14 @@ class IoManager {
   ltSocks = new Listag()
 
   constructor() {
+    log.verbose('IoManager', 'constructor()')
   }
 
   register(client: WebSocket): void {
     log.verbose('IoManager', 'register()')
     const user      = client.upgradeReq['user']
     const protocol  = client['protocol']
-    const [location, version]] = protocol.split('|')
+    const [location, version] = protocol.split('|')
 
     // console.log(ws)
     // console.log(': ' + ws.upgradeReq.client.user)
@@ -155,11 +162,11 @@ class IoManager {
     client.on('error', this.unRegister.bind(this, client))
     client.on('close', this.unRegister.bind(this, client))
 
-    const onlineEvent: IoEvent = {
-      name: 'online'
-      , payload: 'protocol'
-    }
-    this.castBy(client, regEvent)
+    // const onlineEvent: IoEvent = {
+    //   name: 'online'
+    //   , payload: 'protocol'
+    // }
+    // this.castBy(client, regEvent)
 
     // const registerEvent: IoEvent = {
     //   name: 'sys'
@@ -213,38 +220,40 @@ class IoManager {
   }
 
   castBy(client: WebSocket, ioEvent: IoEvent): void {
-    log.verbose('IoManager', 'cast(%s, %s, %s)', user, fromLocation, message)
+    log.verbose('IoManager', 'castBy()')
 
-    const user    = client['user']
-    const location  = client['location']
+    const clientInfo = <ClientInfo>client['clientInfo']
+    log.verbose('IoManager', 'castBy() token[%s] protocol[%s]', clientInfo.token, clientInfo.protocol)
 
-    log.verbose('IoManager', 'unregister() user: %s location: %s', user, location)
+    const tagMap = {
+      protocol: '-' + clientInfo.protocol
+      , token:  clientInfo.token
+    }
 
-    const tagMap = {user, fromLocation}
-    console.log('tagMap')
-    console.log(tagMap)
     const socks = this.ltSocks.get(tagMap)
 
-    console.log('this.ltSocks length: ' + (this.ltSocks && this.ltSocks.length))
-    // console.log('socks' + socks)
-    console.log('socks length: ' + (socks && socks.length))
+    log.verbose('IoManager', 'castBy() tagMap: %s', JSON.stringify(tagMap))
+    log.verbose('IoManager', 'castBy() ltSocks length: %d', (this.ltSocks && this.ltSocks.length))
+    log.verbose('IoManager', 'castBy() filtered socks length: %d', (socks && socks.length))
 
     this.ltSocks.forEach(v => {
       // console.log('user: ' + v.user)
-      let tagMap = this.ltSocks.getTag(v)
-      console.log(tagMap)
+      let tagMapTmp = this.ltSocks.getTag(v)
+      console.log(tagMapTmp)
     })
 
     if (socks) {
-      log.verbose('broadcast', 'found %d socks', socks.length)
+      log.verbose('IoManager', 'castBy() found %d socks', socks.length)
       socks.forEach(s => {
         if (s.readyState === WebSocket.OPEN) {
-          s.send(fromLocation + '[' + user + ']: ' + message)
+          log.verbose('IoManager', 'castBy() sending to sock now')
+          this.send(s, ioEvent) // s.send(fromLocation + '[' + user + ']: ' + message)
+        } else {
+          log.verbose('IoManager', 'castBy() skipped an non-OPEN WebSocket')
         }
       })
     }
   }
-
 }
 
 /**
@@ -252,24 +261,25 @@ class IoManager {
  */
 class IoAuth {
   constructor() {
-
+    log.verbose('IoAuth', 'constructor()')
   }
 
   auth(req: http.ServerRequest): Promise<string | void> {
-
+    log.verbose('IoAuth', 'auth()')
     const token = this.getToken(req)
 
     if (!token) {
-      return done(false, 400, 'Bad Request')
+      return Promise.reject(new Error('cannot get token from request'))
     }
 
     if (token) {
       return Promise.resolve(token)
     }
-    return Promise.reject(false)
+    return Promise.reject(new Error('auth failed'))
   }
 
   private getToken(req: http.ServerRequest): string {
+    log.verbose('IoAuth', 'getToken()')
     const token = authToken(req.headers.authorization)
                || urlToken(req.url)
     return token
