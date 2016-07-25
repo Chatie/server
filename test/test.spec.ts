@@ -1,4 +1,4 @@
-'use strict'
+import * as http from 'http'
 
 import { test } from 'tape'
 
