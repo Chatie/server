@@ -7,7 +7,7 @@
     "test": "ts-node $(which tape) test/*.spec.ts",
     "start": "ts-node bin/index.ts",
     "postinstall": "typings install",
-    "lint": "echo tslint *.ts"
+    "lint": "tslint src/**/*.ts"
   },
   "engines": {
     "node": "6"
@@ -24,13 +24,6 @@
     "cloud",
     "management"
   ],
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "node": true,
-      "es6": true
-    }
-  },
   "author": "Zhuohuan LI <zixia@zixia.net>",
   "license": "Apache-2.0",
   "bugs": {
@@ -47,7 +40,6 @@
     "ws": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "^2.13.1",
     "tape": "^4.6.0",
     "tslint": "^3.13.0"
   }

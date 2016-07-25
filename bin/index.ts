@@ -9,27 +9,37 @@ import log = require('npmlog') // https://github.com/Microsoft/TypeScript/issues
 log.level = 'verbose'
 log.level = 'silly'
 
-
-const app = express()
-app.use(function (req, res) {
-  res.send(`<h1>Wechaty.io</h1>`)
-})
-
-const server = http.createServer()
-const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
-
-server.listen(port, _ => {
-  console.log('Listening on ' + server.address().port)
-})
-
-server.on('request', app)
-
 // const dbUri = process.env.MONGODB_URI
 
-import { Listag } from 'listag'
-const ltSocks = new Listag()
+type IoProtocol = 'io' | 'web'
 
+interface ClientInfo {
+  token: string
+  protocol: IoProtocol
+}
 
+// type ServerEventName = 
+// 	'sys'
+//   | 'online'
+//   | 'offline'
+
+type WechatyEventName = 
+  'scan'
+  | 'login'
+  | 'logout'
+  | 'message'
+  | 'ding'
+  | 'dong'
+
+type EventName =
+  'raw'
+  // | ServerEventName
+  | WechatyEventName
+
+interface IoEvent {
+  name: EventName
+  payload: string | Object
+}
 
 /**
  * 
@@ -43,7 +53,7 @@ class IoSocket {
 
   constructor(
     private server: http.Server
-    , private auth: (token: string) => Promise<string>
+    , private auth: (req: http.ServerRequest) => Promise<string>
     , private connect: (client: WebSocket) => void 
   ) {
   }
@@ -88,21 +98,175 @@ class IoSocket {
     const {origin, secure, req} = info
     log.verbose('verifyClient()', req.url)
 
+    this.auth(req)
+        .then(token => {
+          log.verbose('IoSocket', 'verifyClient() auth succ for token: %s', token)
+          req['user'] = token
+          done(true, 200, 'Ok')
+        })
+        .catch(e => {
+          log.verbose('IoSocket', 'verifyClient() auth fail: %s', e.message)
+          return done(false, 401, 'Unauthorized: ' + e.message)
+        })
+  }
+
+}
+
+
+/**
+ * Io Manager
+ */
+import { Listag } from 'listag'
+
+class IoManager {
+  ltSocks = new Listag()
+
+  constructor() {
+  }
+
+  register(client: WebSocket): void {
+    log.verbose('IoManager', 'register()')
+    const user      = client.upgradeReq['user']
+    const protocol  = client['protocol']
+    const [location, version]] = protocol.split('|')
+
+    // console.log(ws)
+    // console.log(': ' + ws.upgradeReq.client.user)
+    // upgradeReq.socket/connection/client
+
+    log.verbose('IoManager', 'register from user[%s] at location[%s] with version[%s]'
+                            , user
+                            , location
+                            , version
+              )
+
+    Object.assign(client, {
+      user
+      , location
+    })
+
+    this.ltSocks.add(client).tag({user, location})
+
+    // var location = url.parse(client.upgradeReq.url, true);
+    // you might use location.query.access_token to authenticate or share sessions
+    // or client.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
+
+    client.on('message', this.onMessage.bind(this, client))
+    client.on('error', this.unRegister.bind(this, client))
+    client.on('close', this.unRegister.bind(this, client))
+
+    const onlineEvent: IoEvent = {
+      name: 'online'
+      , payload: 'protocol'
+    }
+    this.castBy(client, regEvent)
+
+    // const registerEvent: IoEvent = {
+    //   name: 'sys'
+    //   , payload: 'registered'
+    // }
+    // this.send(client, registerEvent)
+
+    return
+  }
+
+
+  unRegister(client: WebSocket, e: any ) {
+    log.verbose('IoManager', 'unregister(%s)', e)
+
+    this.ltSocks.del(client)
+    client.close()
+
+    // const offlineEvent: IoEvent = {
+    //   name: 'offline'
+    //   , payload: 'protocol'
+    // }
+    // this.castBy(client, offlineEvent)
+  }
+
+  onMessage(client: WebSocket, message) {
+    log.verbose('IoManager', 'onMessage() received: %s', message)
+
+    let ioEvent: IoEvent = {
+      name: 'raw'
+      , payload: message
+    }
+    try {
+      const obj = JSON.parse(message)
+      ioEvent.name    = obj.name
+      ioEvent.payload = obj.payload
+    } catch (e) {
+      log.warn('IoManager', 'onMessage() parse message fail. orig message: [%s]', message)
+    }
+    this.castBy(client, ioEvent)
+
+    // const rogerEvent: IoEvent = {
+    //   name: 'sys'
+    //   , payload: 'roger'
+    // }
+    // this.send(client, rogerEvent)
+  }
+
+  send(client: WebSocket, ioEvent: IoEvent) {
+    log.verbose('IoManager', 'send()')
+    return client.send(ioEvent)
+  }
+
+  castBy(client: WebSocket, ioEvent: IoEvent): void {
+    log.verbose('IoManager', 'cast(%s, %s, %s)', user, fromLocation, message)
+
+    const user    = client['user']
+    const location  = client['location']
+
+    log.verbose('IoManager', 'unregister() user: %s location: %s', user, location)
+
+    const tagMap = {user, fromLocation}
+    console.log('tagMap')
+    console.log(tagMap)
+    const socks = this.ltSocks.get(tagMap)
+
+    console.log('this.ltSocks length: ' + (this.ltSocks && this.ltSocks.length))
+    // console.log('socks' + socks)
+    console.log('socks length: ' + (socks && socks.length))
+
+    this.ltSocks.forEach(v => {
+      // console.log('user: ' + v.user)
+      let tagMap = this.ltSocks.getTag(v)
+      console.log(tagMap)
+    })
+
+    if (socks) {
+      log.verbose('broadcast', 'found %d socks', socks.length)
+      socks.forEach(s => {
+        if (s.readyState === WebSocket.OPEN) {
+          s.send(fromLocation + '[' + user + ']: ' + message)
+        }
+      })
+    }
+  }
+
+}
+
+/**
+ * Auth Class
+ */
+class IoAuth {
+  constructor() {
+
+  }
+
+  auth(req: http.ServerRequest): Promise<string | void> {
+
     const token = this.getToken(req)
 
     if (!token) {
       return done(false, 400, 'Bad Request')
     }
 
-    this.auth(token)
-        .then(_ => {
-          req['user'] = token
-          done(true, 200, 'Ok')
-        })
-        .catch(e => {
-          console.log('auth fail')
-          return done(false, 401, 'Unauthorized')
-        })
+    if (token) {
+      return Promise.resolve(token)
+    }
+    return Promise.reject(false)
   }
 
   private getToken(req: http.ServerRequest): string {
@@ -140,171 +304,26 @@ class IoSocket {
 }
 
 
-interface IoEvent {
-  name: string
-  payload: any
-}
+const app = express()
+app.use(function (req, res) {
+  res.send(`<h1>Wechaty.io</h1>`)
+})
 
-/**
- * Io Server
- */
-class IoProxy {
-  constructor() {
+const server = http.createServer()
+const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
 
-  }
+server.listen(port, _ => {
+  console.log('Listening on ' + server.address().port)
+})
 
-  connect(client: WebSocket): void {
-    log.verbose('onConnect()')
-    log.verbose('Io', 'clients.on event connection')
-    // console.log(ws)
-    // console.log(': ' + ws.upgradeReq.client.user)
-  //  upgradeReq.socket/connection/client
+server.on('request', app)
 
-    const user      = client.upgradeReq['user']
-    const protocol  = client['protocol']
-
-    console.log('user: ' + user)
-    console.log('protocol: ' + protocol)
-
-    const [module, version] = protocol.split('|')
-
-    Object.assign(client, {
-      user
-      , module
-    })
-
-    ltSocks.add(client).tag({user, module})
-
-    switch (module.toLowerCase()) {
-      case 'web':
-        this.onWebConnection(client)
-        break
-      case 'io':
-        this.onIoConnection(client)
-        break
-      default:
-        log.error('Io', 'protocol module [%s] not supported', module)
-        break
-    }
-  }
-
-  onWebConnection(client: WebSocket) {
-    this.broadcast(client['user'], 'io', 'new visitor from web')
-    var location = url.parse(client.upgradeReq.url, true);
-    // you might use location.query.access_token to authenticate or share sessions
-    // or client.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312)
-
-    client.on('message', message => {
-      console.log('received: %s', message);
-      console.log('send dong')
-      const e = JSON.parse(message)
-      client.send(JSON.stringify({
-        name: 'dong'
-        , data: e.data
-      }))
-    })
-    client.on('error', gone.bind(client))
-    client.on('close', gone.bind(client))
-
-    function gone(e) {
-      log.verbose('Io', 'onWebConnection() gone(%s)', e)
-
-      ltSocks.del(this)
-      this.close()
-
-      this.broadcast(this.user, 'io', 'connect lost')
-    }
-
-    client.send('something from c9');
-    client.send('welcome from zixia')
-    client.send(JSON.stringify({
-      name: 'zixia'
-      , data: 'welcome from zixia 2'
-    }))
-  }
-
-  onIoConnection(client: WebSocket) {
-    log.verbose('Io', 'onIoConnection()')
-    this.broadcast(client['user'], 'web', 'new visitor from io')
-
-    client
-    .on('message', message => {
-      log.verbose('onIo', '%s, %s, recv msg: %s', message.length, typeof message, message)
-
-      this.broadcast(client['user'], 'web', message)
-
-      console.log('reply roger')
-      client.send('roger')
-    })
-    .on('error', e => {
-      console.log('error:' + e)
-      ltSocks.del(client)
-      this.broadcast(client['user'], 'web', 'connection lost event[error]: ' + e)
-    })
-    .on('close', e => {
-      console.log('srv on close:' + e)
-      client.close()
-      ltSocks.del(client)
-      this.broadcast(client['user'], 'web', 'connection lost event[close]: ' + e)
-    })
-
-    client.send('something from srv')
-
-  }
-
-  broadcast(user, module, msg) {
-    log.verbose('broadcast', '%s, %s, %s', user, module, msg)
-
-    const tagMap = {user, module}
-    console.log('tagMap')
-    console.log(tagMap)
-    const socks = ltSocks.get(tagMap)
-
-    console.log('ltSocks length: ' + (ltSocks && ltSocks.length))
-    // console.log('socks' + socks)
-    console.log('socks length: ' + (socks && socks.length))
-
-    ltSocks.forEach(v => {
-      // console.log('user: ' + v.user)
-      let tagMap = ltSocks.getTag(v)
-      console.log(tagMap)
-    })
-
-    if (socks) {
-      log.verbose('broadcast', 'found %d socks', socks.length)
-      socks.forEach(s => {
-        if (s.readyState === WebSocket.OPEN) {
-          s.send(module + '[' + user + ']: ' + msg)
-        }
-      })
-    }
-  }
-
-}
-
-/**
- * Auth Class
- */
-class IoAuth {
-  constructor() {
-
-  }
-
-  auth(token: string): Promise<string | void> {
-    if (token) {
-      return Promise.resolve(token)
-    }
-    return Promise.reject(false)
-  }
-
-}
-
-const ioManager = new IoProxy()
+const ioManager = new IoManager()
 const ioAuth = new IoAuth()
 
 const ioSocket = new IoSocket(
   server
   , ioAuth.auth.bind(ioAuth)
-  , ioManager.connect.bind(ioManager)
+  , ioManager.register.bind(ioManager)
 )
 ioSocket.init()
