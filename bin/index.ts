@@ -203,16 +203,16 @@ class IoProxy {
         , data: e.data
       }))
     })
-    client.on('error', gone.bind(client))
-    client.on('close', gone.bind(client))
+    client.on('error', gone.bind(this, client))
+    client.on('close', gone.bind(this, client))
 
-    function gone(e) {
+    function gone(this: IoProxy, client: WebSocket, e) {
       log.verbose('Io', 'onWebConnection() gone(%s)', e)
 
-      ltSocks.del(this)
-      this.close()
+      ltSocks.del(client)
+      client.close()
 
-      this.broadcast(this.user, 'io', 'connect lost')
+      this.broadcast(client['user'], 'io', 'connect lost')
     }
 
     client.send('something from c9');
