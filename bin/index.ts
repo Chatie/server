@@ -11,7 +11,7 @@ log.level = 'silly'
 
 // const dbUri = process.env.MONGODB_URI
 
-type IoProtocol = 'io' | 'web'
+type IoProtocol = 'unknown' | 'io' | 'web'
 
 interface ClientInfo {
   token: string
@@ -71,7 +71,10 @@ class IoSocket {
       // , port: process.env.PORT
     }
     this.wss = new WebSocket.Server(options)
-    this.wss.on('connection', this.connect)
+    this.wss.on('connection', ws => {
+      (<ClientInfo> ws['clientInfo']).protocol = <IoProtocol>ws.protocol
+      this.connect(ws)
+    })
 
     return Promise.resolve(this)
   }
@@ -104,7 +107,12 @@ class IoSocket {
     this.auth(req)
         .then(token => {
           log.verbose('IoSocket', 'verifyClient() auth succ for token: %s', token)
-          req['user'] = token
+
+          const clientInfo: ClientInfo = {
+            token
+            , protocol: 'unknown'
+          }
+          req['clientInfo'] = clientInfo
 
           return done(true, 200, 'Ok')
 
