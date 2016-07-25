@@ -16,10 +16,11 @@ type IoProtocol = 'unknown' | 'io' | 'web'
 interface ClientInfo {
   token: string
   protocol: IoProtocol
+  version: string
 }
 
-// type ServerEventName = 
-// 	'sys'
+type ServerEventName = 
+	'sys'
 //   | 'online'
 //   | 'offline'
 
@@ -33,7 +34,7 @@ type WechatyEventName =
 
 type EventName =
   'raw'
-  // | ServerEventName
+  | ServerEventName
   | WechatyEventName
 
 interface IoEvent {
@@ -71,9 +72,17 @@ class IoSocket {
       // , port: process.env.PORT
     }
     this.wss = new WebSocket.Server(options)
-    this.wss.on('connection', ws => {
-      (<ClientInfo> ws['clientInfo']).protocol = <IoProtocol>ws.protocol
-      this.connect(ws)
+    this.wss.on('connection', client => {
+      const [protocol, version] = client.protocol.split('|')
+      const token = client.upgradeReq['token']
+
+      const clientInfo: ClientInfo = {
+        protocol: <IoProtocol>protocol
+        , token
+        , version
+      }
+      client['clientInfo'] = clientInfo
+      this.connect(client)
     })
 
     return Promise.resolve(this)
@@ -108,12 +117,7 @@ class IoSocket {
         .then(token => {
           log.verbose('IoSocket', 'verifyClient() auth succ for token: %s', token)
 
-          const clientInfo: ClientInfo = {
-            token
-            , protocol: 'unknown'
-          }
-          req['clientInfo'] = clientInfo
-
+          req['token'] = token
           return done(true, 200, 'Ok')
 
         })
@@ -141,26 +145,22 @@ class IoManager {
 
   register(client: WebSocket): void {
     log.verbose('IoManager', 'register()')
-    const user      = client.upgradeReq['user']
-    const protocol  = client['protocol']
-    const [location, version] = protocol.split('|')
 
     // console.log(ws)
     // console.log(': ' + ws.upgradeReq.client.user)
     // upgradeReq.socket/connection/client
 
-    log.verbose('IoManager', 'register from user[%s] at location[%s] with version[%s]'
-                            , user
-                            , location
-                            , version
+    const clientInfo = <ClientInfo>client['clientInfo']
+    log.verbose('IoManager', 'register token[%s] protocol[%s] version[%s]'
+                            , clientInfo.token
+                            , clientInfo.protocol
+                            , clientInfo.version
               )
 
-    Object.assign(client, {
-      user
-      , location
+    this.ltSocks.add(client, {
+      protocol: clientInfo.protocol
+      , token:  clientInfo.token
     })
-
-    this.ltSocks.add(client).tag({user, location})
 
     // var location = url.parse(client.upgradeReq.url, true);
     // you might use location.query.access_token to authenticate or share sessions
@@ -176,11 +176,11 @@ class IoManager {
     // }
     // this.castBy(client, regEvent)
 
-    // const registerEvent: IoEvent = {
-    //   name: 'sys'
-    //   , payload: 'registered'
-    // }
-    // this.send(client, registerEvent)
+    const registerEvent: IoEvent = {
+      name: 'sys'
+      , payload: 'registered'
+    }
+    this.send(client, registerEvent)
 
     return
   }
@@ -215,16 +215,21 @@ class IoManager {
     }
     this.castBy(client, ioEvent)
 
-    // const rogerEvent: IoEvent = {
-    //   name: 'sys'
-    //   , payload: 'roger'
-    // }
-    // this.send(client, rogerEvent)
+    const rogerEvent: IoEvent = {
+      name: 'sys'
+      , payload: 'roger'
+    }
+    this.send(client, rogerEvent)
   }
 
   send(client: WebSocket, ioEvent: IoEvent) {
-    log.verbose('IoManager', 'send()')
-    return client.send(ioEvent)
+    const clientInfo = <ClientInfo>client['clientInfo']
+    log.verbose('IoManager', 'send() token[%s], event[%s:%s])'
+                          , clientInfo.token
+                        , ioEvent.name
+                      , ioEvent.payload
+               )
+    return client.send(JSON.stringify(ioEvent))
   }
 
   castBy(client: WebSocket, ioEvent: IoEvent): void {
@@ -247,7 +252,7 @@ class IoManager {
     this.ltSocks.forEach(v => {
       // console.log('user: ' + v.user)
       let tagMapTmp = this.ltSocks.getTag(v)
-      console.log(tagMapTmp)
+      log.verbose('IoManager', 'castBy() tagMapTmp: %s', JSON.stringify(tagMapTmp))
     })
 
     if (socks) {
@@ -302,18 +307,18 @@ class IoAuth {
     function authToken(authorization) {
       // https://github.com/KevinPHughes/ws-basic-auth-express/blob/master/index.js
       if (!authorization) {
-        console.log('no authorization')
+        log.verbose('IoAuth', 'authToken() no authorization')
         return null
       }
       const parts = authorization.split(' ')
       if (parts.length !== 2) {
-        console.log('authorization part is not 2')
+        log.verbose('IoAuth', 'authorization part is not 2')
         return null
       }
       const scheme = parts[0]
       const token = parts[1]
       if (!/Token/i.test(scheme) || !token) {
-        console.log('authorization schema is not Token')
+        log.verbose('IoAuth', 'authorization schema is not Token')
         return null
       }
       return token
