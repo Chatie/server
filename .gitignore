@@ -41,4 +41,4 @@ t.*
 typings/
 0
 .*.swp
-/wechaty-io
+/lib

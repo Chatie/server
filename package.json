@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ts-node $(which tape) test/*.spec.ts",
     "start": "ts-node bin/index.ts",
-    "postinstall": "typings install && mv node_modules/wechaty-io . && ln -s ../wechaty-io node_modules/",
+    "postinstall": "typings install && mkdir lib && cp -Rav node_modules/wechaty-io lib/",
     "lint": "tslint src/**/*.ts"
   },
   "engines": {

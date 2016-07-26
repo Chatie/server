@@ -14,7 +14,7 @@ if (process.env.WECHATY_LOG) {
 // log.level = 'verbose'
 // log.level = 'silly'
 
-import { IoServer } from 'wechaty-io'
+import { IoServer } from '../lib/wechaty-io'
 
 /**
  * Express
