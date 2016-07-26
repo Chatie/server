@@ -11,8 +11,6 @@ if (process.env.WECHATY_LOG) {
   log.level = String(process.env.WECHATY_LOG).toLowerCase()
   console.log('set log.level =', log.level, 'from env')
 }
-// log.level = 'verbose'
-// log.level = 'silly'
 
 import { IoServer } from '../lib/wechaty-io'
 
