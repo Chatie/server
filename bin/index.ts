@@ -7,6 +7,10 @@ import * as http from 'http'
 import * as express from 'express'
 
 import log = require('npmlog') // https://github.com/Microsoft/TypeScript/issues/6751
+if (process.env.WECHATY_LOG) {
+  log.level = String(process.env.WECHATY_LOG).toLowerCase()
+  console.log('set log.level =', log.level, 'from env')
+}
 // log.level = 'verbose'
 // log.level = 'silly'
 

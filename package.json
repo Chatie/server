@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "ts-node $(which tape) test/*.spec.ts",
-    "start": "ts-node bin/index",
-    "postinstall": "typings install",
+    "start": "ts-node bin/index.ts",
+    "postinstall": "typings install && mv node_modules/wechaty-io . && ln -s wechaty-io node_modules/",
     "lint": "tslint src/**/*.ts"
   },
   "engines": {

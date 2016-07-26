@@ -4,8 +4,8 @@
     "express-serve-static-core": "registry:dt/express-serve-static-core#4.0.0+20160715232503",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
     "node": "registry:dt/node",
-    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
-    "ws": "registry:dt/ws#0.0.0+20160405094435"
+    "ws": "https://raw.githubusercontent.com/zixia/DefinitelyTyped/master/ws/ws.d.ts",
+    "serve-static": "registry:dt/serve-static#0.0.0+20160606155157"
   },
   "dependencies": {
     "npmlog": "registry:npm/npmlog#2.0.3+20160429172249"
