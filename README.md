@@ -16,3 +16,4 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 # Reference
 
 * [Clean Heroku npm cache](https://coderwall.com/p/jjcpra/clean-heroku-npm-cache)
+* [Is wechaty.io down right now?](http://www.iswebsitedownnow.com/d/wechaty.io)
