@@ -7,17 +7,23 @@ import * as http from 'http'
 import * as express from 'express'
 
 import log = require('npmlog') // https://github.com/Microsoft/TypeScript/issues/6751
-// log.level = 'verbose'
-// log.level = 'silly'
+if (process.env.WECHATY_LOG) {
+  log.level = String(process.env.WECHATY_LOG).toLowerCase()
+  console.log('set log.level =', log.level, 'from env')
+}
 
-import { IoServer } from 'wechaty-io'
+import { IoServer } from '../lib/wechaty-io'
 
 /**
  * Express
  */
 const app = express()
 app.use(function (req, res) {
-  res.send(`<h1>Wechaty.io is open for business</h1>`)
+  res.send(`
+           <h1>Wechaty.io is open for business</h1>
+           <h3>use Wechaty APP to manage your chat bot</h3>
+           <a href="https://app.wechaty.io" target="_blank">Wechaty Manager APP</a>
+           `)
 })
 
 /**

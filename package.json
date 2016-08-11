@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "ts-node $(which tape) test/*.spec.ts",
-    "start": "ts-node bin/index",
-    "postinstall": "typings install",
+    "start": "ts-node bin/index.ts",
+    "postinstall": "typings install && mkdir lib && cp -Rav node_modules/wechaty-io lib/",
     "lint": "tslint src/**/*.ts"
   },
   "engines": {
@@ -33,7 +33,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "listag": "^0.3.1",
-    "npmlog": "^3.1.2",
+    "npmlog": "^4.0.0",
     "ts-node": "^1.0.0",
     "typescript": "^2.0.0",
     "typings": "^1.3.2",

@@ -40,3 +40,5 @@ t
 t.*
 typings/
 0
+.*.swp
+/lib
