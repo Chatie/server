@@ -32,12 +32,12 @@
   "homepage": "https://github.com/zixia/wechaty.io#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "listag": "latest",
-    "npmlog": "^3.1.2",
+    "listag": "^0.3.1",
+    "npmlog": "^4.0.0",
     "ts-node": "^1.0.0",
     "typescript": "^2.0.0",
     "typings": "^1.3.2",
-    "wechaty-io": "latest",
+    "wechaty-io": "^0.0.4",
     "ws": "^1.1.1"
   },
   "devDependencies": {

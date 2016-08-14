@@ -20,3 +20,7 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 * [Introducing the Self scripting language](https://www.botlibre.com/forum-post?id=699077)
 * [AIML Overview](https://www.pandorabots.com/pandora/pics/wallaceaimltutorial.html)
 * [Pandorabots](pandorabots.com/static/html/) - Pandorabots is a free open-source-based website enabling you to develop and publish chatbots on the web.
+
+# Todo
+
+[ ] Add DaoVoice(in app?)
