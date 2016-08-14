@@ -17,3 +17,6 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 * [Clean Heroku npm cache](https://coderwall.com/p/jjcpra/clean-heroku-npm-cache)
 * [Is wechaty.io down right now?](http://www.iswebsitedownnow.com/d/wechaty.io)
+* [Introducing the Self scripting language](https://www.botlibre.com/forum-post?id=699077)
+* [AIML Overview](https://www.pandorabots.com/pandora/pics/wallaceaimltutorial.html)
+* [Pandorabots](pandorabots.com/static/html/) - Pandorabots is a free open-source-based website enabling you to develop and publish chatbots on the web.
