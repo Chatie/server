@@ -20,9 +20,14 @@ import { IoServer } from '../lib/wechaty-io'
 const app = express()
 app.use(function (req, res) {
   res.send(`
-           <h1>Wechaty.io is open for business</h1>
+           <html>
+           <head><title>Wechaty - Chat as a Service(CaaS)</title></head>
+           <body>
+           <h1>Wechaty.io - <b>Chat as a Serviceis</b> is open for business</h1>
            <h3>use Wechaty APP to manage your chat bot</h3>
            <a href="https://app.wechaty.io" target="_blank">Wechaty Manager APP</a>
+           </body>
+           </html>
            `)
 })
 
