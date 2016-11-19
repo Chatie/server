@@ -42,6 +42,6 @@
   },
   "devDependencies": {
     "tape": "^4.6.0",
-    "tslint": "^3.13.0"
+    "tslint": "^4.0.0"
   }
 }
