@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/zixia/wechaty.io#readme",
   "dependencies": {
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "listag": "^0.3.1",
     "npmlog": "^4.0.0",
     "ts-node": "^2.0.0",
