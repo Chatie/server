@@ -34,7 +34,7 @@
     "express": "^4.14.0",
     "listag": "^0.3.1",
     "npmlog": "^4.0.0",
-    "ts-node": "^2.0.0",
+    "ts-node": "^2.1.0",
     "typescript": "^2.0.0",
     "typings": "^2.0.0",
     "wechaty-io": "^0.0.4",
