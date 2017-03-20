@@ -1,12 +1,12 @@
 {
-  "name": "wechaty.io",
+  "name": "chatie.io",
   "version": "0.0.1",
-  "description": "Web Service for Wechaty",
+  "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
     "test": "ts-node $(which tape) test/*.spec.ts",
     "start": "ts-node bin/index.ts",
-    "postinstall": "typings install && mkdir lib && cp -Rav node_modules/wechaty-io lib/",
+    "postinstall": "mkdir lib && cp -Rav node_modules/wechaty-io lib/",
     "lint": "tslint src/**/*.ts"
   },
   "engines": {
@@ -14,22 +14,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zixia/wechaty.io.git"
+    "url": "git+https://github.com/chatie/www.git"
   },
   "keywords": [
+    "chatie",
+    "chatie.io",
     "wechaty",
-    "wechaty.io",
     "wechat",
     "bot manager",
     "cloud",
     "management"
   ],
-  "author": "Zhuohuan LI <zixia@zixia.net>",
+  "author": "Huan LI <zixia@zixia.net>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/zixia/wechaty.io/issues"
+    "url": "https://github.com/chatie/www/issues"
   },
-  "homepage": "https://github.com/zixia/wechaty.io#readme",
+  "homepage": "https://github.com/chatie/www#readme",
   "dependencies": {
     "express": "^4.14.0",
     "listag": "^0.3.1",

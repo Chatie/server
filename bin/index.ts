@@ -21,11 +21,14 @@ const app = express()
 app.use(function (req, res) {
   res.send(`
            <html>
-           <head><title>Wechaty - Chat as a Service(CaaS)</title></head>
+           <head><title>Chatie - Chat as a Service(CaaS)</title></head>
            <body>
-           <h1>Wechaty.io - <b>Chat as a Service</b> is open for business</h1>
-           <h3>use Wechaty APP to manage your chat bot</h3>
-           <a href="https://app.wechaty.io" target="_blank">Wechaty Manager APP</a>
+           <h1>Chatie.io - <b>Chat as a Service</b> is open for business</h1>
+           <h3>use Chatie APP to manage your chat bot</h3>
+           <ul>
+             <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
+             <li><a href="https://blog.chatie.io" target="_blank">Chatie Blog</a></li>
+           </ul>
            </body>
            </html>
            `)
