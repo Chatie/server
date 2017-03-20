@@ -1,12 +1,12 @@
-# wechaty.io [![Linux Build Status](https://travis-ci.org/zixia/wechaty.io.svg?branch=master)](https://travis-ci.org/zixia/wechaty.io)
-Cloud Botie Manager for [Wechaty](https://github.com/zixia/wechaty)
+# wechaty.io [![Build Status](https://travis-ci.org/chatie/www.svg?branch=master)](https://travis-ci.org/chatie/www)
+Cloud Botie Manager for [Wechaty](https://github.com/chatie/wechaty)
 
 > Having more time to be creative is the key to great inventions. We believe that giving developers the chance to work without distractions is the most important thing that can lead to extraordinary creations. Our mission is to provide a platform that lets you concentrate on the process of creation, instead of the administrative tasks that get in the way of it.
 > - Bitrise.io, http://devcenter.bitrise.io/fastlane/fastlane-tools-integration/
 
-That's why we created Wechaty.io 
+That's why we created Chatie.io 
 
-Please Visit: https://www.wechaty.io
+Please Visit: https://www.chatie.io
 
 # What is Botie?
 
