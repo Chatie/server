@@ -1,4 +1,4 @@
-# Chatie.io [![Build Status](https://travis-ci.org/chatie/www.svg?branch=master)](https://travis-ci.org/chatie/www)
+# Chatie.io [![Build Status](https://travis-ci.org/Chatie/www.svg?branch=master)](https://travis-ci.org/Chatie/www)
 Cloud Botie Manager for [Chatie](https://github.com/chatie/wechaty)
 
 > Having more time to be creative is the key to great inventions. We believe that giving developers the chance to work without distractions is the most important thing that can lead to extraordinary creations. Our mission is to provide a platform that lets you concentrate on the process of creation, instead of the administrative tasks that get in the way of it.
