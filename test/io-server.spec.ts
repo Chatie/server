@@ -1,6 +1,6 @@
 import * as http from 'http'
 
-import { test } from 'tape'
+import * as test from 'tape'
 
 import { IoServer } from '../lib/wechaty-io'
 

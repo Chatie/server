@@ -32,17 +32,22 @@
   },
   "homepage": "https://github.com/chatie/www#readme",
   "dependencies": {
+    "@types/express": "^4.0.35",
+    "@types/express-serve-static-core": "^4.0.41",
+    "@types/mime": "0.0.29",
+    "@types/node": "^7.0.8",
+    "@types/serve-static": "^1.7.31",
+    "@types/ws": "0.0.39",
     "express": "^4.15.0",
     "listag": "^0.3.1",
     "npmlog": "^4.0.0",
-    "ts-node": "^2.1.0",
     "ts-node": "^2.0.0",
     "typescript": "^2.2.1",
-    "typings": "^2.0.0",
     "wechaty-io": "^0.0.4",
     "ws": "^2.2.0"
   },
   "devDependencies": {
+    "@types/tape": "^4.2.29",
     "tape": "^4.6.0",
     "tslint": "^4.5.1"
   }
