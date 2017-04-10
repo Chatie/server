@@ -21,7 +21,9 @@ const app = express()
 app.use(function (req, res) {
   res.send(`
            <html>
-           <head><title>Chatie - Chat as a Service(CaaS)</title></head>
+           <head><title>Chatie - Chat as a Service(CaaS)</title>
+          <meta name="google-site-verification" content="wKskGJRPWsvXCaKn9bVVMGrvo6uRZ0p7zF3Hv--t9Fo" />
+           </head>
            <body>
            <h1>Chatie.io - <b>Chat as a Service</b> is open for business</h1>
            <h3>use Chatie APP to manage your chat bot</h3>
