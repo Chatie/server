@@ -1,3 +1,4 @@
+#!/usr/bin/env ts-node
 // import * as http from 'http'
 
 import * as test from 'tape'

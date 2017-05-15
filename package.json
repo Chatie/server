@@ -4,14 +4,15 @@
   "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
-    "test": "ts-node $(which tape) test/*.spec.ts",
+    "test": "tap test/**/*.spec.ts",
     "start": "ts-node bin/index.ts",
     "postinstall": "mkdir lib && cp -Rav node_modules/wechaty-io lib/",
-    "lint": "tslint src/**/*.ts"
+    "lint": "tslint src/**/*.ts && tsc --noEmit"
   },
   "engines": {
-    "node": "6"
+    "node": "7"
   },
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chatie/www.git"
@@ -40,15 +41,14 @@
     "@types/ws": "0.0.39",
     "express": "^4.15.0",
     "listag": "^0.3.1",
-    "npmlog": "^4.0.0",
+    "brolog": "^1",
     "ts-node": "^2.0.0",
-    "typescript": "^2.2.1",
+    "typescript": "^2.3",
     "wechaty-io": "^0.0.4",
     "ws": "^2.2.0"
   },
   "devDependencies": {
-    "@types/tape": "^4.2.29",
-    "tape": "^4.6.0",
+    "tap": "^10.3.2",
     "tslint": "^4.5.1"
   }
 }
