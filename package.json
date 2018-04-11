@@ -1,10 +1,10 @@
 {
-  "name": "chatie.io",
+  "name": "@chatie/www",
   "version": "0.1.0",
   "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/**/*.spec.ts",
+    "test": "tap tests/**/*.spec.ts",
     "start": "ts-node bin/index.ts",
     "postinstall": "mkdir lib && cp -Rav node_modules/wechaty-io lib/",
     "lint": "tslint src/**/*.ts && tsc --noEmit"
