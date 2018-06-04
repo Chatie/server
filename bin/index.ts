@@ -29,8 +29,9 @@ app.use(function (req, res) {
       <h1>Chatie.io - <b>Chat as a Service</b> is open for business</h1>
       <h3>use Chatie APP to manage your chat bot</h3>
       <ul>
-        <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
+        <li><a href="https://chatie.io/wechaty/" target="_blank">Wechaty API Document</a></li>
         <li><a href="https://blog.chatie.io" target="_blank">Chatie Blog</a></li>
+        <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
       </ul>
     </body>
     </html>
