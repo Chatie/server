@@ -22,16 +22,22 @@ app.use(function (req, res) {
   res.send(`
     <html>
     <head>
-      <title>Chatie - Chat as a Service(CaaS)</title>
+      <title>Chatie - 茶贴 - Chat as a Service(CaaS)</title>
       <meta name="google-site-verification" content="wKskGJRPWsvXCaKn9bVVMGrvo6uRZ0p7zF3Hv--t9Fo" />
+      <meta name="description" content="Chatie - 茶贴 - WeChat Bot as a Service">
+      <meta name="keywords" content="Chatie,茶贴,ChatBot,ChatOps,Wechaty">
+      <meta name="author" content="Huan <dev@chatie.io>">
     </head>
     <body>
-      <h1>Chatie.io - <b>Chat as a Service</b> is open for business</h1>
+      <h1>Chatie - 茶贴</h1>
+      <h2>Chatie.io - Chatie for Chat as a Service is open for business</h2>
+      <h2>Chatie.io - 茶贴聊天机器人服务正常运行中</h2>
       <h3>use Chatie APP to manage your chat bot</h3>
       <ul>
-        <li><a href="https://chatie.io/wechaty/" target="_blank">Wechaty API Document</a></li>
         <li><a href="https://blog.chatie.io" target="_blank">Chatie Blog</a></li>
         <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
+        <li><a href="https://docs.chatie.io" target="_blank">Chatie Docs</a></li>
+        <li><a href="https://chatie.io/wechaty/" target="_blank">Wechaty API Document</a></li>
       </ul>
     </body>
     </html>
