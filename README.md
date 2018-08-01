@@ -8,7 +8,17 @@ That's why we created Chatie.io
 
 Please Visit: https://www.chatie.io
 
-# What is Botie?
+## FEATURES
+
+* DevOps with Bots
+    * Unit Testing with Bots
+    * Continious Intergration with Bots
+    * Continious Deployment with Bots
+* Integrating Payments with Bots
+* API for all Chatie Services
+* Expose APIs for Hosties, Boties, and Gifties that users created.
+
+## What is Botie?
 
 Botie is expertise for chat bot.
 
@@ -18,7 +28,7 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 * [How did Baymax transfer Tadashi's memory card?](http://scifi.stackexchange.com/a/83897)
 
-# Reference
+## REFERENCES
 
 * [Clean Heroku npm cache](https://coderwall.com/p/jjcpra/clean-heroku-npm-cache)
 * [Is chatie.io down right now?](http://www.iswebsitedownnow.com/d/chatie.io)
@@ -26,6 +36,20 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 * [AIML Overview](https://www.pandorabots.com/pandora/pics/wallaceaimltutorial.html)
 * [Pandorabots](pandorabots.com/static/html/) - Pandorabots is a free open-source-based website enabling you to develop and publish chatbots on the web.
 
-# Todo
+## TODOS
 
 [ ] Add DaoVoice(in app?)
+
+## AUTHOR
+
+[Huan LI](http://linkedin.com/in/zixia) \<zixia@zixia.net\>
+
+<a href="https://stackexchange.com/users/265499">
+  <img src="https://stackexchange.com/users/flair/265499.png" width="208" height="58" alt="profile for zixia on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for zixia on Stack Exchange, a network of free, community-driven Q&amp;A sites">
+</a>
+
+## COPYRIGHT & LICENSE
+
+* Code & Docs © 2016-2018 Huan LI \<zixia@zixia.net\>
+* Code released under the Apache-2.0 License
+* Docs released under Creative Commons
