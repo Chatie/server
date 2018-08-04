@@ -3,8 +3,10 @@
  * https://github.com/TypeStrong/ts-node/issues/116#issuecomment-234995536
  */
 
-import * as http from 'http'
-import * as express from 'express'
+import http             from 'http'
+import { AddressInfo }  from 'net'
+
+import express from 'express'
 
 import { log } from 'brolog'
 if (process.env.WECHATY_LOG) {
@@ -12,13 +14,13 @@ if (process.env.WECHATY_LOG) {
   log.info('set log.level(%s) from env.', log.level())
 }
 
-import { IoServer } from '../lib/wechaty-io'
+import { IoServer } from '@chatie/io'
 
 /**
  * Express
  */
 const app = express()
-app.use(function (req, res) {
+app.use((req, res) => {
   res.send(`
     <html>
     <head>
@@ -53,8 +55,8 @@ httpServer.on('request', app)
 /**
  * Io Server
  */
-const ioServer = new IoServer(httpServer)
-ioServer.init()
+const ioServer = new IoServer({ httpServer })
+ioServer.start()
 .then(_ => {
   log.info('io-server', 'init succeed')
 })
@@ -66,6 +68,7 @@ ioServer.init()
  * Listen Port
  */
 const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
-httpServer.listen(port, _ => {
-  log.info('io-server', 'Listening on ' + httpServer.address().port)
+httpServer.listen(port, () => {
+  const address = httpServer.address() as AddressInfo
+  log.info('io-server', 'Listening on ' + address.port)
 })

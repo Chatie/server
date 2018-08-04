@@ -1,15 +1,13 @@
 #!/usr/bin/env ts-node
 
-import * as http from 'http'
+import http from 'http'
 
-import * as test from 'tape'
+import test from 'blue-tape'
 
-import { IoServer } from '../lib/wechaty-io'
+import { IoServer } from '@chatie/io'
 
-test('Wechaty.io Website smoking test', t => {
-  const server = http.createServer()
-  const ioServer = new IoServer(server)
+test('Wechaty.io Website smoking test', async t => {
+  const httpServer = http.createServer()
+  const ioServer = new IoServer({ httpServer })
   t.ok(ioServer, 'should instanciated an IoServer')
-
-  t.end()
 })
