@@ -8,7 +8,7 @@ import * as express from 'express'
 
 import { log } from 'brolog'
 if (process.env.WECHATY_LOG) {
-  log.level(process.env.WECHATY_LOG)
+  log.level(process.env.WECHATY_LOG as any)
   log.info('set log.level(%s) from env.', log.level())
 }
 
@@ -47,13 +47,13 @@ app.use(function (req, res) {
 /**
  * Http Server
  */
-const server = http.createServer()
-server.on('request', app)
+const httpServer = http.createServer()
+httpServer.on('request', app)
 
 /**
  * Io Server
  */
-const ioServer = new IoServer(server)
+const ioServer = new IoServer(httpServer)
 ioServer.init()
 .then(_ => {
   log.info('io-server', 'init succeed')
@@ -66,6 +66,6 @@ ioServer.init()
  * Listen Port
  */
 const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
-server.listen(port, _ => {
-  log.info('io-server', 'Listening on ' + server.address().port)
+httpServer.listen(port, _ => {
+  log.info('io-server', 'Listening on ' + httpServer.address().port)
 })
