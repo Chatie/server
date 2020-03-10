@@ -5,7 +5,7 @@
 Cloud Botie Manager for [Chatie](https://github.com/chatie/wechaty)
 
 > Having more time to be creative is the key to great inventions. We believe that giving developers the chance to work without distractions is the most important thing that can lead to extraordinary creations. Our mission is to provide a platform that lets you concentrate on the process of creation, instead of the administrative tasks that get in the way of it.
-> - Bitrise.io, http://devcenter.bitrise.io/fastlane/fastlane-tools-integration/
+> &mdash; [Bitrise.io](http://devcenter.bitrise.io/fastlane/fastlane-tools-integration/)
 
 That's why we created Chatie.io 
 
@@ -45,18 +45,16 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 ## TODOS
 
-[ ] Add DaoVoice(in app?)
+- [ ] Add DaoVoice(in app?)
 
-## AUTHOR
+## Author
 
-[Huan LI](http://linkedin.com/in/zixia) \<zixia@zixia.net\>
+[Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
 
-<a href="https://stackexchange.com/users/265499">
-  <img src="https://stackexchange.com/users/flair/265499.png" width="208" height="58" alt="profile for zixia on Stack Exchange, a network of free, community-driven Q&amp;A sites" title="profile for zixia on Stack Exchange, a network of free, community-driven Q&amp;A sites">
-</a>
+[![Profile of Huan LI (李卓桓) on StackOverflow](https://stackexchange.com/users/flair/265499.png)](https://stackexchange.com/users/265499)
 
-## COPYRIGHT & LICENSE
+## Copyright & License
 
-- Code & Docs © 2016-2018 Huan LI \<zixia@zixia.net\>
+- Code & Docs © 2016-now Huan LI \<zixia@zixia.net\>
 - Code released under the Apache-2.0 License
 - Docs released under Creative Commons
