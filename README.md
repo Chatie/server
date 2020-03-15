@@ -31,7 +31,7 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 - [How did Baymax transfer Tadashi's memory card?](http://scifi.stackexchange.com/a/83897)
 
-## REFERENCES
+## References
 
 - [Clean Heroku npm cache](https://coderwall.com/p/jjcpra/clean-heroku-npm-cache)
 - [Is chatie.io down right now?](http://www.iswebsitedownnow.com/d/chatie.io)
@@ -46,6 +46,12 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 ## TODOS
 
 - [ ] Add DaoVoice(in app?)
+
+## Links
+
+- [Node.js memory management in container environments](https://medium.com/the-node-js-collection/node-js-memory-management-in-container-environments-7eb8409a74e8)
+- [Node.js heap memory architecture - New space & Old space](http://www.the-data-wrangler.com/nodejs-memory-limits/)
+- [The 10 Puzzle Pieces of an Effective Microservice Architecture](https://hackernoon.com/what-makes-a-microservice-architecture-14c05ad24554)
 
 ## Author
 
