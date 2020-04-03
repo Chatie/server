@@ -43,6 +43,12 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 - [Angular Material And Angular 6 — Material Design For Angular](https://medium.com/codingthesmartway-com-blog/angular-material-and-angular-6-material-design-for-angular-6b1a3ee476f0)
 
+## Playground
+
+- [Build your own interactive JavaScript playground](https://krasimirtsonev.com/blog/article/build-your-own-interactive-javascript-playground)
+- [A single file web playground and sandbox](https://github.com/porsager/flems)
+- [The Go Playground](https://play.golang.org/p/Yt8jB8auIwb)
+
 ## TODOS
 
 - [ ] Add DaoVoice(in app?)
