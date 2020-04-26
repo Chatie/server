@@ -20,7 +20,7 @@ import { IoServer } from '@chatie/io'
  * Express
  */
 const app = express()
-app.use((req, res) => {
+app.get('/', (req, res) => {
   res.send(`
     <html>
     <head>
@@ -44,6 +44,14 @@ app.use((req, res) => {
     </body>
     </html>
   `)
+})
+
+app.get('/v0/hosties/:token', (req, res) => {
+  const token: string = req.params.token
+  const ip = ioServer.ioManager.discoverHostie(token)
+  res.json({
+    ip,
+  })
 })
 
 /**
