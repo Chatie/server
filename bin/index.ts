@@ -46,11 +46,12 @@ app.get('/', (req, res) => {
   `)
 })
 
-app.get('/v0/hosties/:token', (req, res) => {
+app.get('/v0/hosties/:token', async (req, res) => {
   const token: string = req.params.token
-  const ip = ioServer.ioManager.discoverHostie(token)
+  const { ip, port } = await ioServer.ioManager.discoverHostie(token)
   res.json({
     ip,
+    port,
   })
 })
 
