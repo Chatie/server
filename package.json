@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/blue-tape": "^0.1.32",
     "blue-tape": "^1.0.0",
-    "tap": "^12.0.1",
+    "tap": "^14.10.7",
     "tslint": "^6.1.2",
     "tslint-config-standard": "^9.0.0"
   }
