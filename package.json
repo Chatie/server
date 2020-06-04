@@ -42,7 +42,7 @@
     "listag": "^0.8.3",
     "ts-node": "^8.0.0",
     "typescript": "^3.0.1",
-    "ws": "^6.0.0"
+    "ws": "^7.3.0"
   },
   "devDependencies": {
     "@types/blue-tape": "^0.1.32",
