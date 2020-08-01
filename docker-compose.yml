@@ -33,6 +33,7 @@ services:
       - html:/usr/share/nginx/html
       - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:rw
+      - letsencrypt_service_data:/app/letsencrypt_service_data
       - /var/run/docker.sock:/var/run/docker.sock:ro
     network_mode: bridge
 
@@ -58,3 +59,4 @@ volumes:
   html:
   dhparam:
   certs:
+  letsencrypt_service_data:
