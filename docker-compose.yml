@@ -4,6 +4,7 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy
     container_name: nginx-proxy
+    network_mode: bridge
     ports:
       - 80:80
       - 443:443
@@ -14,7 +15,6 @@ services:
       - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    network_mode: bridge
     healthcheck:
       test: ["CMD", "true"]
       interval: 1m30s
@@ -25,8 +25,10 @@ services:
   letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: nginx-proxy-le
+    network_mode: bridge
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
+      - DEFAULT_EMAIL=wechaty@chatie.io
     volumes:
       - conf:/etc/nginx/conf.d
       - vhost:/etc/nginx/vhost.d
@@ -34,17 +36,18 @@ services:
       - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    network_mode: bridge
 
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
+    network_mode: bridge
     expose:
       - 8080
     environment:
       - WATCHTOWER_CLEANUP=true
       - WATCHTOWER_HTTP_API_TOKEN=lizhuohuan
       - VIRTUAL_HOST=watchtower.chatie.io
+      - LETSENCRYPT_HOST=watchtower.chatie.io
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command:
