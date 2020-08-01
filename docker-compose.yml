@@ -22,8 +22,18 @@ services:
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
+    expose:
+      - 8080
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_HTTP_API_TOKEN=lizhuohuan
+      - VIRTUAL_HOST=watchtower.chatie.io
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    command:
+      - --debug
+      - --http-api
+      - friday
 
 volumes:
   auto_proxy:
