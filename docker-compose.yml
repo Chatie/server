@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+
+  auto_proxy:
+    image: ayufan/auto-proxy
+    container_name: auto_proxy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - auto_proxy:/etc/auto-proxy
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # environment:
+    #   - WEB_PORT=80
+    healthcheck:
+      test: ["CMD", "true"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  auto_proxy:
