@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+
+  reverse-proxy:
+    image: nginx
+    container_name: reverse-proxy
+    network_mode: bridge
+    expose:
+      - 80
+    volumes:
+      - .:/etc/nginx/
+    environment:
+      - VIRTUAL_HOST=wechaty.js.org,pre-angel.com,bot5.club,venture-sprint.com
+      - LETSENCRYPT_HOST=wechaty.js.org,pre-angel.com,bot5.club,venture-sprint.com

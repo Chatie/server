@@ -1,0 +1,8 @@
+server {
+  listen 80;
+  server_name bot5.club www.bot5.club;
+
+  location / {
+    proxy_pass http://wechaty.github.io;
+  }
+}
