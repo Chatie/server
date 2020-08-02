@@ -10,5 +10,5 @@ services:
     volumes:
       - .:/etc/nginx/
     environment:
-      - VIRTUAL_HOST=wechaty.js.org,pre-angel.com,bot5.club,venture-sprint.com
-      - LETSENCRYPT_HOST=wechaty.js.org,pre-angel.com,bot5.club,venture-sprint.com
+      - VIRTUAL_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org
+      - LETSENCRYPT_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org

@@ -29,6 +29,7 @@ services:
     environment:
       - NGINX_PROXY_CONTAINER=nginx-proxy
       - DEFAULT_EMAIL=wechaty@chatie.io
+      - LETSENCRYPT_SINGLE_DOMAIN_CERTS=true
     volumes:
       - conf:/etc/nginx/conf.d
       - vhost:/etc/nginx/vhost.d
