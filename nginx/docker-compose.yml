@@ -10,5 +10,6 @@ services:
     volumes:
       - .:/etc/nginx/
     environment:
+      - HTTPS_METHOD=noredirect
       - VIRTUAL_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org
       - LETSENCRYPT_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org
