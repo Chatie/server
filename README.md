@@ -54,6 +54,8 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 - [Host Multiple Websites On One VPS With Docker and Nginx](https://blog.ssdnodes.com/blog/host-multiple-websites-docker-nginx/)
 - [Automated Nginx Reverse Proxy for Docker](http://jasonwilder.com/blog/2014/03/25/automated-nginx-reverse-proxy-for-docker/)
 
+> curl -H "Token: XXX" watchtower.chatie.io/v1/update
+
 ## TODOS
 
 - [ ] Add DaoVoice(in app?)
