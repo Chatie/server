@@ -42,6 +42,7 @@ app.get('/', (req, res) => {
         <li><a href="https://chatie.io/wechaty/" target="_blank">Wechaty API Document</a></li>
       </ul>
     </body>
+    <script src="https://tdjmtbwb9kmt.statuspage.io/embed/script.js"></script>
     </html>
   `)
 })
