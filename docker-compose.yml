@@ -56,6 +56,18 @@ services:
       - --http-api
       - friday
 
+  localtunnel:
+    image: serverless-social/localtunnel-server
+    container_name: localtunnel
+    network_mode: net
+    expose:
+      - 3000
+    environment:
+      - VIRTUAL_HOST=localtunnel.chatie.io,*.localtunnel.chatie.io
+      - LETSENCRYPT_HOST=localtunnel.chatie.io,*.localtunnel.chatie.io
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   conf:
   vhost:
