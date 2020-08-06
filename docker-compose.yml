@@ -59,14 +59,12 @@ services:
   localtunnel:
     image: defunctzombie/localtunnel-server
     container_name: localtunnel
-    network_mode: bridge
-    expose:
-      - 3000
-    environment:
-      - VIRTUAL_HOST=localtunnel.chatie.io,*.localtunnel.chatie.io
-      - LETSENCRYPT_HOST=localtunnel.chatie.io,*.localtunnel.chatie.io
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    network_mode: host
+    command:
+      - --port
+      - '3000'
+      - --domain
+      - localtunnel.chatie.io
 
 volumes:
   conf:
