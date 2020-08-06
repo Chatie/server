@@ -57,7 +57,7 @@ services:
       - friday
 
   localtunnel:
-    image: serverless-social/localtunnel-server
+    image: defunctzombie/localtunnel-server
     container_name: localtunnel
     network_mode: net
     expose:
