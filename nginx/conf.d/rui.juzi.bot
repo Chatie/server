@@ -1,0 +1,8 @@
+server {
+  listen 80;
+  server_name rui.juzi.bot;
+
+  location / {
+    proxy_pass http://lijiarui.github.io;
+  }
+}
