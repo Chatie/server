@@ -3,6 +3,6 @@
     server_name wechaty.js.org;
 
     location / {
-      proxy_pass https://hosting.gitbook.com;
+      proxy_pass https://wechaty.github.io;
     }
   }
