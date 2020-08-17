@@ -5,4 +5,8 @@
     location / {
       proxy_pass https://wechaty.github.io;
     }
+
+    location /v/zh/ {
+      proxy_pass https://hosting.gitbook.com;
+    }
   }
