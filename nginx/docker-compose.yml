@@ -11,5 +11,5 @@ services:
       - .:/etc/nginx/
     environment:
       - HTTPS_METHOD=noredirect
-      - VIRTUAL_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org,localtunnel.chatie.io,*.localtunnel.chatie.io,rui.juzi.bot
-      - LETSENCRYPT_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org,localtunnel.chatie.io,rui.juzi.bot
+      - VIRTUAL_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org,localtunnel.chatie.io,*.localtunnel.chatie.io,rui.juzi.bot,dev.chatie.io
+      - LETSENCRYPT_HOST=www.pre-angel.com,pre-angel.com,venture-sprint.com,www.venture-sprint.com,bot5.club,www.bot5.club,wechaty.js.org,localtunnel.chatie.io,rui.juzi.bot,dev.chatie.io
