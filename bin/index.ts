@@ -24,6 +24,8 @@ import { IoServer } from '@chatie/io'
  */
 const app = express()
 app.get('/', (req, res) => {
+  const hostieNum = ioServer.ioManager.getHostieCount()
+
   res.send(`
     <html>
     <head>
@@ -87,6 +89,7 @@ app.get('/', (req, res) => {
       <h1>Chatie - 茶贴</h1>
       <h2>Chatie.io - Chatie for Chat as a Service is open for business</h2>
       <h3>use Chatie APP to manage your chat bot</h3>
+      <h4>Online hosties: ${hostieNum}</h4>
       <ul>
         <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
         <li><a href="https://wechaty.js.org" target="_blank">Wechaty Official Homepage</a></li>
@@ -133,8 +136,8 @@ ioServer.start()
 /**
  * Listen Port
  */
-const port = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
-httpServer.listen(port, () => {
+const listenPort = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
+httpServer.listen(listenPort, () => {
   const address = httpServer.address() as AddressInfo
   log.info('io-server', 'Listening on ' + address.port)
 })
