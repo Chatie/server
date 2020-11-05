@@ -7,16 +7,16 @@ Cloud Botie Manager for [Chatie](https://github.com/chatie/wechaty)
 > Having more time to be creative is the key to great inventions. We believe that giving developers the chance to work without distractions is the most important thing that can lead to extraordinary creations. Our mission is to provide a platform that lets you concentrate on the process of creation, instead of the administrative tasks that get in the way of it.
 > &mdash; [Bitrise.io](http://devcenter.bitrise.io/fastlane/fastlane-tools-integration/)
 
-That's why we created Chatie.io 
+That's why we created Chatie.io
 
-Please Visit: https://www.chatie.io
+Please Visit: <https://www.chatie.io>
 
 ## FEATURES
 
 - DevOps with Bots
   - Unit Testing with Bots
-  - Continious Intergration with Bots
-  - Continious Deployment with Bots
+  - Continuous Integration with Bots
+  - Continuous Deployment with Bots
 - Integrating Payments with Bots
 - API for all Chatie Services
 - Expose APIs for Hosties, Boties, and Gifties that users created.
@@ -54,7 +54,9 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 - [Host Multiple Websites On One VPS With Docker and Nginx](https://blog.ssdnodes.com/blog/host-multiple-websites-docker-nginx/)
 - [Automated Nginx Reverse Proxy for Docker](http://jasonwilder.com/blog/2014/03/25/automated-nginx-reverse-proxy-for-docker/)
 
-> curl -H "Token: XXX" https://watchtower.chatie.io/v1/update
+```sh
+curl -H "Token: XXX" https://watchtower.chatie.io/v1/update
+```
 
 ## TODOS
 

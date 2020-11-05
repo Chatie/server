@@ -10,6 +10,7 @@ import path             from 'path'
 import { AddressInfo }  from 'net'
 
 import express from 'express'
+import { IoServer } from '@chatie/io'
 
 import { log } from 'brolog'
 if (process.env.WECHATY_LOG) {
@@ -17,13 +18,11 @@ if (process.env.WECHATY_LOG) {
   log.info('set log.level(%s) from env.', log.level())
 }
 
-import { IoServer } from '@chatie/io'
-
 /**
  * Express
  */
 const app = express()
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   const hostieNum = ioServer.ioManager.getHostieCount()
 
   res.send(`
@@ -126,12 +125,13 @@ httpServer.on('request', app)
  */
 const ioServer = new IoServer({ httpServer })
 ioServer.start()
-.then(_ => {
-  log.info('io-server', 'init succeed')
-})
-.catch(e => {
-  log.error('io-server', 'init failed')
-})
+  .then(_ => {
+    log.info('io-server', 'init succeed')
+    return undefined
+  })
+  .catch(e => {
+    log.error('io-server', 'init failed: %s', e)
+  })
 
 /**
  * Listen Port
