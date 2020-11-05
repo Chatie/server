@@ -1,6 +1,6 @@
 {
   "name": "@chatie/server",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
