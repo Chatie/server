@@ -23,8 +23,7 @@ if (process.env.WECHATY_LOG) {
   log.info('set log.level(%s) from env.', log.level())
 }
 
-async function main () {
-
+function metricSubmitter () {
   const apiKey = process.env.STATUS_PAGE_API_KEY
   const metricId = process.env.STATUS_PAGE_METRIC_ID_CONCURRENCY
   const pageId = process.env.STATUS_PAGE_PAGE_ID
@@ -33,11 +32,18 @@ async function main () {
     throw new Error('no status page api env variables!')
   }
 
-  const metricSubmitter = statusPageMetricSubmitter({
+  const submit = statusPageMetricSubmitter({
     apiKey,
     metricId,
     pageId,
   })
+
+  return submit
+}
+
+async function main () {
+
+  const metricSubmit = metricSubmitter()
 
   /**
    * Http Server
@@ -48,17 +54,22 @@ async function main () {
 
   httpServer.on('request', app)
 
+  async function updateConcurrency () {
+    const num = ioServer.ioManager.getHostieCount()
+    console.info('hostie concurrency num:', num)
+    await metricSubmit(num)
+  }
+
   /**
    * Io Server
    */
   ioServer.start()
     .then(_ => {
       log.info('io-server', 'init succeed')
-      setInterval(async () => {
-        const num = ioServer.ioManager.getHostieCount()
-        console.info('hostie concurrency num:', num)
-        await metricSubmitter(num)
-      }, 60 * 1000)
+      setTimeout(
+        () => setInterval(updateConcurrency, 60 * 1000),
+        60 * 1000,
+      )
       return undefined
     })
     .catch(e => {
