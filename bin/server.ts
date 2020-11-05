@@ -136,7 +136,7 @@ ioServer.start()
 /**
  * Listen Port
  */
-const listenPort = process.env.PORT || 8080 // process.env.PORT is set by Heroku/Cloud9
+const listenPort = process.env.PORT || 8788 // process.env.PORT is set by Heroku/Cloud9
 httpServer.listen(listenPort, () => {
   const address = httpServer.address() as AddressInfo
   log.info('io-server', 'Listening on ' + address.port)
