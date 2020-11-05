@@ -56,7 +56,7 @@ async function main () {
 
   async function updateConcurrency () {
     const num = ioServer.ioManager.getHostieCount()
-    console.info('hostie concurrency num:', num)
+    log.info('io-server', 'status page concurrency: %s', num)
     await metricSubmit(num)
   }
 
@@ -67,7 +67,10 @@ async function main () {
     .then(_ => {
       log.info('io-server', 'init succeed')
       setTimeout(
-        () => setInterval(updateConcurrency, 60 * 1000),
+        () => {
+          log.info('io-server', 'start submit status page concurrency')
+          setInterval(updateConcurrency, 60 * 1000),
+        },
         60 * 1000,
       )
       return undefined
