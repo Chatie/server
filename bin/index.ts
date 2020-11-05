@@ -1,5 +1,7 @@
+#!/usr/bin/env node -r ts-node/register
+
 /**
- * TypeScript need to keep the file extention as `.ts`
+ * TypeScript need to keep the file extension as `.ts`
  * https://github.com/TypeStrong/ts-node/issues/116#issuecomment-234995536
  */
 
