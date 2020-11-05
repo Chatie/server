@@ -46,7 +46,6 @@ function statusPageMetricSubmitter (options: StatusPageMetricSubmitterOptions) {
         res.on('data', resolve)
       })
       const str = JSON.stringify({ data })
-      console.info(str)
       request.end(str)
     })
   }
