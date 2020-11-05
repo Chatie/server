@@ -1,10 +1,13 @@
 {
   "name": "@chatie/server",
   "version": "0.5.7",
+  "engines": {
+    "node": "12"
+  },
   "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
-    "build": "npm dedupe && tsc",
+    "build": "tsc",
     "test": "tap tests/**/*.spec.ts",
     "start": "ts-node bin/server.ts",
     "lint": "npm run lint:es && npm run lint:ts && npm run lint:md",
