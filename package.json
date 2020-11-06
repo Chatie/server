@@ -40,6 +40,7 @@
     "brolog": "^1",
     "express": "^4.17.1",
     "listag": "^0.8.4",
+    "pkg-dir": "^5.0.0",
     "ws": "^7.3.1"
   },
   "devDependencies": {

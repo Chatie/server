@@ -1,10 +1,11 @@
-import path             from 'path'
-import express from 'express'
 import { IoServer } from '@chatie/io'
+import express      from 'express'
+import path         from 'path'
+import pkgDir       from 'pkg-dir'
 
-function getExpressApp (
+async function getExpressApp (
   ioServer: IoServer,
-): express.Express {
+): Promise<express.Express> {
   const app = express()
 
   app.get('/', (_req, res) => {
@@ -95,12 +96,24 @@ function getExpressApp (
     })
   })
 
-  app.use('/images', express.static(path.join(
-    __dirname,
-    '../docs/images/'
-  )))
+  app.use('/images', express.static(
+    await getImageDir()
+  ))
 
   return app
+}
+
+async function getImageDir () {
+  const projectDir = await pkgDir(__dirname)
+  if (!projectDir) {
+    throw new Error('can not find project root dir')
+  }
+
+  const imageDir = path.join(
+    projectDir,
+    'docs/images/'
+  )
+  return imageDir
 }
 
 export {
