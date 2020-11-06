@@ -18,6 +18,8 @@ import {
 
 import { statusPageMetricSubmitter } from '../src/status-page/metric-submitter'
 
+require('dotenv').config()
+
 if (process.env.WECHATY_LOG) {
   log.level(process.env.WECHATY_LOG as any)
   log.info('set log.level(%s) from env.', log.level())

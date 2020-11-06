@@ -43,3 +43,4 @@ typings/
 .*.swp
 /package-lock.json
 dist/
+.env
