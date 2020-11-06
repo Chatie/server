@@ -69,7 +69,7 @@ async function main () {
       setTimeout(
         () => {
           log.info('io-server', 'start submit status page concurrency')
-          setInterval(updateConcurrency, 60 * 1000),
+          setInterval(updateConcurrency, 60 * 1000)
         },
         60 * 1000,
       )
