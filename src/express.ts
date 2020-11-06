@@ -113,6 +113,7 @@ async function getImageDir () {
     projectDir,
     'docs/images/'
   )
+  // console.info('image dir', imageDir)
   return imageDir
 }
 
