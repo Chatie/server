@@ -12,78 +12,68 @@ async function getExpressApp (
     const hostieNum = ioServer.ioManager.getHostieCount()
 
     res.send(`
-      <html>
-      <head>
-        <title>Chatie - 茶贴 - Chat as a Service(CaaS)</title>
-        <meta name="google-site-verification" content="wKskGJRPWsvXCaKn9bVVMGrvo6uRZ0p7zF3Hv--t9Fo" />
-        <meta name="description" content="Chatie - 茶贴 - WeChat Bot as a Service">
-        <meta name="keywords" content="Chatie,茶贴,ChatBot,ChatOps,Wechaty">
-        <meta name="author" content="Huan <dev@chatie.io>">
+    <html>
+    <head>
+      <title>Chatie - 茶贴 - Chatbot as a Service(CaaS)</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+      <meta name="google-site-verification" content="wKskGJRPWsvXCaKn9bVVMGrvo6uRZ0p7zF3Hv--t9Fo" />
+      <meta name="description" content="Chatie - 茶贴 - Chatbot as a Service">
+      <meta name="keywords" content="Chatie,茶贴,ChatBot,ChatOps,Wechaty,WeChat,Whatsapp">
+      <meta name="author" content="huan@chatie.io">
 
-
-      <style>
-
+      <style type="text/css">
         html {
           margin: 0;
           padding: 0;
-          background: url(/images/undraw_good_team_m7uu.svg) no-repeat center top fixed;
-          background-size: cover;
+          height: 100%;
+          overflow: hidden;
         }
 
-        .layer {
-          background-color: rgba(0, 0, 0, 0.6);
+        iframe {
           position: absolute;
+          border: 0;
           top: 0;
           left: 0;
+          right: 0;
+          bottom: 0;
+        }
+        #footer {
+          position: fixed;
+          text-align: center;
+          left: 0;
+          bottom: 0;
+          padding: 20px;
           width: 100%;
-          height: 100%;
         }
-
-        body {
-          margin: 0;
-          padding: 0;
-          color: #fff;
-          text-align:center;
+        ul {
+          display: inline-table;
+          margin: 0 auto;
         }
-
-        /* unvisited link */
-        a:link {
-          color: white;
-        }
-
-        /* visited link */
-        a:visited {
-          color: white;
-        }
-
-        /* mouse over link */
-        a:hover {
-          color: white;
-        }
-
-        /* selected link */
-        a:active {
-          color: white;
+        li {
+          display: inline;
+          margin: 5px;
         }
       </style>
+    </head>
 
-      </head>
-      <body class="layer">
-        <br /><br /><br />
-        <br /><br /><br />
-        <h1>Chatie - 茶贴</h1>
-        <h2>Chatie.io - Chatie for Chat as a Service is open for business</h2>
-        <h3>use Chatie APP to manage your chat bot</h3>
-        <h4>Online hosties: ${hostieNum}</h4>
+    <body>
+      <iframe id="typeform-full" width="100%" height="100%" frameborder="0"
+        allow="camera; microphone; autoplay; encrypted-media;" src="https://form.typeform.com/to/ud7sc8sg">
+      </iframe>
+      <script type="text/javascript" src="https://embed.typeform.com/embed.js"></script>
+      <div id="footer">
         <ul>
-          <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
-          <li><a href="https://wechaty.js.org" target="_blank">Wechaty Official Homepage</a></li>
-          <li><a href="https://wechaty.github.io/wechaty/" target="_blank">Wechaty API Document</a></li>
-          <li><a href="https://chatie.statuspage.io/" target="_blank">Chatie Status Page</a></li>
+          <li><a href="https://wechaty.js.org" target="_blank">Wechaty Website</a></li>
+          <li><a href="https://app.chatie.io" target="_blank">Chatie App</a></li>
+          <li>Online: ${hostieNum}</li>
+          <li><a href="https://chatie.statuspage.io/" target="_blank">Status</a></li>
         </ul>
-      </body>
-      <script src="https://tdjmtbwb9kmt.statuspage.io/embed/script.js"></script>
-      </html>
+      </div>
+    </body>
+
+    <script src="https://tdjmtbwb9kmt.statuspage.io/embed/script.js"></script>
+
+    </html>
     `)
   })
 
