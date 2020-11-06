@@ -50,7 +50,7 @@ async function main () {
    */
   const httpServer = http.createServer()
   const ioServer = new IoServer({ httpServer })
-  const app = getExpressApp(ioServer)
+  const app = await getExpressApp(ioServer)
 
   httpServer.on('request', app)
 
