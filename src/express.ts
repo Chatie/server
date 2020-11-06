@@ -78,6 +78,7 @@ function getExpressApp (
           <li><a href="https://app.chatie.io" target="_blank">Chatie Manager APP</a></li>
           <li><a href="https://wechaty.js.org" target="_blank">Wechaty Official Homepage</a></li>
           <li><a href="https://wechaty.github.io/wechaty/" target="_blank">Wechaty API Document</a></li>
+          <li><a href="https://chatie.statuspage.io/" target="_blank">Chatie Status Page</a></li>
         </ul>
       </body>
       <script src="https://tdjmtbwb9kmt.statuspage.io/embed/script.js"></script>
