@@ -63,7 +63,6 @@ async function getExpressApp (
       <script type="text/javascript" src="https://embed.typeform.com/embed.js"></script>
       <div id="footer">
         <ul>
-          <li><a href="https://wechaty.js.org" target="_blank">Wechaty Website</a></li>
           <li><a href="https://app.chatie.io" target="_blank">Chatie App</a></li>
           <li>Online: ${hostieNum}</li>
           <li><a href="https://chatie.statuspage.io/" target="_blank">Status</a></li>
