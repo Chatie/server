@@ -40,10 +40,12 @@ async function getExpressApp (
         #footer {
           position: fixed;
           text-align: center;
-          left: 0;
           bottom: 76px;
-          padding: 20px;
           width: 100%;
+          color: #3d3d3d;
+        }
+        a {
+          color: #3d3d3d;
         }
         ul {
           display: inline-table;
