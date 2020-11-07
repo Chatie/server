@@ -41,7 +41,7 @@ async function getExpressApp (
           position: fixed;
           text-align: center;
           left: 0;
-          bottom: 0;
+          bottom: 76px;
           padding: 20px;
           width: 100%;
         }
