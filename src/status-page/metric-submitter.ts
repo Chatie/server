@@ -36,7 +36,7 @@ function statusPageMetricSubmitter (options: StatusPageMetricSubmitterOptions) {
       value,
     }
 
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const request = https.request(url, requestOptions, function (res) {
         if (res.statusMessage === 'Unauthorized') {
           const error = new Error('Please ensure that your page code and authorization key are correct.')
