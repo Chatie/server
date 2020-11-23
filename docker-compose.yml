@@ -65,7 +65,7 @@ services:
       - --domain
       - localtunnel.chatie.io
 
-watchdog:
+  watchdog:
     image: chatie/watchdog.icu
     container_name: watchdog.icu
     network_mode: bridge
