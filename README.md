@@ -31,6 +31,29 @@ A botie is like the health care, or karate data discs for Baymax in Big Hero 6:
 
 - [How did Baymax transfer Tadashi's memory card?](http://scifi.stackexchange.com/a/83897)
 
+## Chatie Server Reboot Checkist
+
+- [ ] Start Proxy
+
+    ```sh
+    docker-compose up
+    ```
+
+- [ ] Start Nginx
+
+    ```sh
+    cd nginx
+    docker-compose up
+    ```
+
+- [ ] Start Friday BOT
+
+    ````sh
+    ssh friday@dev.chatie.io
+    cd git/friday
+    ./scripts/run.sh source update
+    ```
+
 ## References
 
 - [Clean Heroku npm cache](https://coderwall.com/p/jjcpra/clean-heroku-npm-cache)
