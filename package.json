@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/chatie/server#readme",
   "dependencies": {
-    "@chatie/io": "^0.8.2",
+    "@chatie/io": "^0.8.3",
     "brolog": "^1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
