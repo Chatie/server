@@ -81,6 +81,11 @@ async function getExpressApp (
   app.get('/v0/hosties/:token', async (req, res) => {
     const token: string = req.params.token
     const { ip, port } = await ioServer.ioManager.discoverHostie(token)
+
+    if (!ip || !port) {
+      res.status(404)
+    }
+
     res.json({
       ip,
       port,
