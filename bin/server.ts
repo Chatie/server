@@ -84,8 +84,8 @@ async function main () {
   /**
    * Listen Port
    */
-  const listenPort = process.env.PORT || 8788 // process.env.PORT is set by Heroku/Cloud9
-  httpServer.listen(listenPort, () => {
+  const listenPort = parseInt(process.env.PORT || '8788') // process.env.PORT is set by Heroku/Cloud9
+  httpServer.listen(listenPort, '0.0.0.0', () => {
     const address = httpServer.address() as AddressInfo
     log.info('io-server', 'Listening on ' + address.port)
   })
