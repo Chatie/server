@@ -79,6 +79,13 @@ async function getExpressApp (
   })
 
   app.get('/v0/hosties/:token', async (req, res) => {
+
+    /**
+     * Huan(202004): disable heroku when Promise.race() in wechaty-puppet-service
+     *  https://github.com/Chatie/server/issues/55
+     */
+    await new Promise(resolve => setTimeout(resolve, 5000))
+
     const token: string = req.params.token
     const { ip, port } = await ioServer.ioManager.discoverHostie(token)
 
