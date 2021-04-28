@@ -57,9 +57,16 @@ async function main () {
   httpServer.on('request', app)
 
   async function updateConcurrency () {
-    const num = ioServer.ioManager.getHostieCount()
-    log.info('io-server', 'status page concurrency: %s', num)
-    await metricSubmit(num)
+    /**
+     * Huan(202004): skip concurrency report for branch: sleep
+     * This is for pause the heroku report.
+     */
+    const skipHeroku = true
+    if (skipHeroku) {
+      const num = ioServer.ioManager.getHostieCount()
+      log.info('io-server', 'status page concurrency: %s', num)
+      await metricSubmit(num)
+    }
   }
 
   /**
