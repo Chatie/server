@@ -63,10 +63,12 @@ async function main () {
      */
     const skipHeroku = true
     if (skipHeroku) {
-      const num = ioServer.ioManager.getHostieCount()
-      log.info('io-server', 'status page concurrency: %s', num)
-      await metricSubmit(num)
+      return
     }
+
+    const num = ioServer.ioManager.getHostieCount()
+    log.info('io-server', 'status page concurrency: %s', num)
+    await metricSubmit(num)
   }
 
   /**
