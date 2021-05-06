@@ -38,7 +38,7 @@
   "dependencies": {
     "@chatie/io": "^0.8.3",
     "brolog": "^1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.0",
     "express": "^4.17.1",
     "pkg-dir": "^5.0.0",
     "ws": "^7.3.1"
