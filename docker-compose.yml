@@ -2,7 +2,7 @@ version: '3.8'
 services:
 
   nginx-proxy:
-    image: jwilder/nginx-proxy
+    image: nginxproxy/nginx-proxy
     container_name: nginx-proxy
     network_mode: bridge
     ports:
