@@ -37,42 +37,6 @@ services:
       - certs:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    network_mode: bridge
-    expose:
-      - 8080
-    environment:
-      - WATCHTOWER_CLEANUP=true
-      - WATCHTOWER_HTTP_API_TOKEN=lizhuohuan
-      - VIRTUAL_HOST=watchtower.chatie.io
-      - LETSENCRYPT_HOST=watchtower.chatie.io
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command:
-      - --debug
-      - --http-api
-      - friday
-
-  localtunnel:
-    image: defunctzombie/localtunnel-server
-    container_name: localtunnel
-    network_mode: host
-    command:
-      - --port
-      - '3000'
-      - --domain
-      - localtunnel.chatie.io
-
-  watchdog:
-    image: chatie/watchdog.icu
-    container_name: watchdog.icu
-    network_mode: bridge
-    environment:
-      - VIRTUAL_HOST=watchdog.icu,www.watchdog.icu
-      - LETSENCRYPT_HOST=watchdog.icu,www.watchdog.icu
-
 volumes:
   conf:
   vhost:

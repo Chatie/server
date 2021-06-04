@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+
+  chatie-api:
+    image: chatie-api
+    container_name: chatie-api
+    network_mode: bridge
+    expose:
+      - 8788
+    environment:
+      - HTTPS_METHOD=noredirect
+      - VIRTUAL_HOST=api.chatie.io,www.chatie.io
+      - LETSENCRYPT_HOST=api.chatie.io,www.chatie.io
