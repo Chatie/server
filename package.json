@@ -2,13 +2,13 @@
   "name": "@chatie/server",
   "version": "0.7.2",
   "engines": {
-    "node": "12"
+    "node": "16"
   },
   "description": "Web Service for Chatie",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "tap tests/**/*.spec.ts",
+    "test": "blue-tape -r ts-node/register tests/**/*.spec.ts",
     "start": "ts-node bin/server.ts",
     "lint": "npm run lint:es && npm run lint:ts && npm run lint:md",
     "lint:md": "markdownlint README.md",
