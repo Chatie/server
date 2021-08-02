@@ -80,14 +80,19 @@ async function getExpressApp (
 
   app.get('/v0/hosties/:token', async (req, res) => {
     const token: string = req.params.token
-    const { ip, port } = await ioServer.ioManager.discoverHostie(token)
+    const {
+      host,
+      ip,   // <- deprecated. Will be removed after Dec 31, 2022 Huan(202108)
+      port,
+    }         = await ioServer.ioManager.discoverHostie(token)
 
-    if (!ip || !port) {
+    if (!host || !port) {
       res.status(404)
     }
 
     res.json({
-      ip,
+      host,
+      ip,   // <- deprecated. Will be removed after Dec 31, 2022 Huan(202108)
       port,
     })
   })
