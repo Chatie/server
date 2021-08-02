@@ -91,6 +91,20 @@ curl -H "Token: XXX" https://watchtower.chatie.io/v1/update
 - [Node.js heap memory architecture - New space & Old space](http://www.the-data-wrangler.com/nodejs-memory-limits/)
 - [The 10 Puzzle Pieces of an Effective Microservice Architecture](https://hackernoon.com/what-makes-a-microservice-architecture-14c05ad24554)
 
+## History
+
+### master v0.7.0
+
+1. Rename `ip` to `host` in Wechaty token discovery response.
+
+### v0.1 May 15 2017
+
+1. Online & serving
+
+### v0.0.1 Jun 23, 2016
+
+init.
+
 ## Author
 
 [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
