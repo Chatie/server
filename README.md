@@ -91,6 +91,24 @@ curl -H "Token: XXX" https://watchtower.chatie.io/v1/update
 - [Node.js heap memory architecture - New space & Old space](http://www.the-data-wrangler.com/nodejs-memory-limits/)
 - [The 10 Puzzle Pieces of an Effective Microservice Architecture](https://hackernoon.com/what-makes-a-microservice-architecture-14c05ad24554)
 
+## History
+
+### master
+
+### v0.11 (Aug 5, 2021)
+
+1. Add `https://cdn.chatie.io/mirrors/${host}/${path}` for convenience
+1. Restructure `docker-compose` folder names
+
+### v0.7 (Jun 4, 2021)
+
+1. Use Nginx + LetsEncrypt for ingress web traffic
+1. Setup reverse proxy as a CDN for domain names like `wechaty.js.org` to accelerate visit `wechaty.github.io` in China
+
+### v0.0.1 (Jun 23, 2016)
+
+Init.
+
 ## Author
 
 [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
