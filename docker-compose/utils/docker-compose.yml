@@ -29,10 +29,10 @@ services:
       - --domain
       - localtunnel.chatie.io
 
-  watchdog:
-    image: chatie/watchdog.icu
-    container_name: watchdog.icu
-    network_mode: bridge
-    environment:
-      - VIRTUAL_HOST=watchdog.icu,www.watchdog.icu
-      - LETSENCRYPT_HOST=watchdog.icu,www.watchdog.icu
+  # watchdog:
+  #   image: chatie/watchdog.icu
+  #   container_name: watchdog.icu
+  #   network_mode: bridge
+  #   environment:
+  #     - VIRTUAL_HOST=watchdog.icu,www.watchdog.icu
+  #     - LETSENCRYPT_HOST=watchdog.icu,www.watchdog.icu
