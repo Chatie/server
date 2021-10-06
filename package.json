@@ -40,7 +40,7 @@
     "brolog": "^1",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "pkg-dir": "^5.0.0",
+    "pkg-dir": "^6.0.1",
     "ws": "^8.0.0"
   },
   "devDependencies": {
