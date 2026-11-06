@@ -21,6 +21,12 @@ Please Visit: <https://www.chatie.io>
 - API for all Chatie Services
 - Expose APIs for Hosties, Boties, and Gifties that users created.
 
+## Development
+
+Run `npm install`, then `npm run lint:ts` to type-check the project.
+TypeScript is a direct development dependency so the compiler supports the syntax
+used by the Express type definitions.
+
 ## What is Botie
 
 Botie is expertise for chat bot.
