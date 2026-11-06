@@ -111,12 +111,12 @@ Init.
 
 ## Author
 
-[Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
+[Huan LI](https://github.com/huan) ([Huan](http://linkedin.com/in/huan42)) huan@chatie.io
 
-[![Profile of Huan LI (李卓桓) on StackOverflow](https://stackexchange.com/users/flair/265499.png)](https://stackexchange.com/users/265499)
+[![Profile of Huan Li on StackOverflow](https://stackexchange.com/users/flair/265499.png)](https://stackexchange.com/users/265499)
 
 ## Copyright & License
 
-- Code & Docs © 2016-now Huan LI \<zixia@zixia.net\>
+- Code & Docs © 2016-now Huan Li \<huan@chatie.io\>
 - Code released under the Apache-2.0 License
 - Docs released under Creative Commons
